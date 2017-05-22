@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFTProject", "IFTProject.csproj", "{3C01FBE1-35B9-4E0A-9A44-DB83587AF4EA}"
 EndProject
 Global

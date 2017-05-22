@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
 public enum Words
 {
     //IFT Words
@@ -41,8 +41,23 @@ public class Card : MonoBehaviour {
     public Button myButton;
     public Words myWord;
 
-	void Start () {
-		
+    Card(GameObject body, Text text, Button button, Words word)
+    {
+        myBody = body;
+        myText = text;
+        myButton = button;
+        myWord = word;
+    }
+    private Words randomWord()
+    {
+        return (Words)(UnityEngine.Random.Range(0, Enum.GetNames(typeof(Words)).Length));
+    }
+    void Start () {
+        myBody = this.gameObject;
+        myButton = this.gameObject.GetComponent<Button>();
+        myText = this.gameObject.GetComponentInChildren<Text>();
+        myWord = randomWord();
+        myText.text = myWord.ToString();
 	}
 	
 	// Update is called once per frame
