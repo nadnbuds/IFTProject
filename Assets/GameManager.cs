@@ -23,14 +23,18 @@ public class GameManager : Singleton<GameManager> {
     //The Body of each indivdual round
     private void StartRound()
     {
+        ObjectPooler.Instance.Shuffle();
         //Pull IFT cards into the current pool
         int numOfCards = Random.Range(lowerBound, upperBound);
         for(int x = 0; x < numOfCards; x++)
         {
             currentPool.Add(ObjectPooler.Instance.GetIFTObject());
         }
+        //Show the cards
         DisplayCards();
+        //Functionality for picking and winning/losing the round
         DisplayObjective(numOfCards);
+        //Pull distraction cards
         for(int x = 0; x < numOfChoices - numOfCards; x++)
         {
             currentPool.Add(ObjectPooler.Instance.GetAllObject());
@@ -46,7 +50,9 @@ public class GameManager : Singleton<GameManager> {
     private void DisplayObjective(int num)
     {
         int target = Random.Range(1, num);
+        //Put pick [number] card on screen
         target -= 1;
         targetCard = currentPool[target];
+        pickEnabled = true;
     }
 }
