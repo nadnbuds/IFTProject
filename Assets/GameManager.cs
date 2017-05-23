@@ -38,7 +38,6 @@ public class GameManager : Singleton<GameManager> {
         {
             Debug.Log("Pulling");
             currentPool.Add(ObjectPooler.Instance.GetIFTObject());
-            currentPool[x].transform.parent = myCanvas;
         }
         //Show the cards
         DisplayCards();
@@ -61,9 +60,37 @@ public class GameManager : Singleton<GameManager> {
     private void DisplayObjective(int num)
     {
         int target = rng.Next(1, num);
-        //Put pick [number] card on screen
+        DisplayText(target);
         target -= 1;
         targetCard = currentPool[target];
         pickEnabled = true;
+        ObjectPooler.Instance.Shuffle(currentPool);
+    }
+
+    private void DisplayText(int target)
+    {
+        string place;
+        switch (target)
+        {
+            case 1:
+                place = "1st";
+                break;
+            case 2:
+                place = "2nd";
+                break;
+            case 3:
+                place = "3rd";
+                break;
+            default:
+                place = target + "th";
+                break;
+        }
+        Canvas.Instance.headerDisplay.text = "Pick the " + place + " card in the row previously displayed";
+        Canvas.Instance.headerDisplay.gameObject.SetActive(true);
+    }
+
+    public void CorrectCardPick(bool correct)
+    {
+
     }
 }
