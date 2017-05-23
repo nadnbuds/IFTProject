@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+
 public enum Words
 {
     //IFT Words
@@ -60,6 +61,17 @@ public class Card : MonoBehaviour {
         myText.text = myWord.ToString();
 	}
 	
+    public void checkSameCard()
+    {
+        if (myWord == GameManager.Instance.targetCard.myWord)
+        {
+            GameManager.Instance.CorrectCardPick(true);
+        }
+        else
+        {
+            GameManager.Instance.CorrectCardPick(false);
+        }
+    }
 	// Update is called once per frame
 	void Update () {
 		
