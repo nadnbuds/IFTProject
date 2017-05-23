@@ -6,7 +6,7 @@ using System;
 public class GameManager : Singleton<GameManager> {
     bool pickEnabled;
     List<Card> currentPool;
-    Transform myCanvas;
+    Transform myParent;
     System.Random rng;
     public int rounds;
     //Bounds for how many cards per round
@@ -18,7 +18,7 @@ public class GameManager : Singleton<GameManager> {
 
     private void Start()
     {
-        myCanvas = Canvas.Instance.transform;
+        myParent = Canvas.Instance.cardDisplay.transform;
         rng = new System.Random();
         currentPool = new List<Card>();
         //How many rounds to go through in the game
@@ -42,6 +42,7 @@ public class GameManager : Singleton<GameManager> {
         //Show the cards
         DisplayCards();
         yield return new WaitForSeconds(timeToDisplay);
+        RemoveCards();
         //Functionality for picking and winning/losing the round
         //Pull distraction cards
         for(int x = 0; x < numOfChoices - numOfCards; x++)
@@ -54,7 +55,18 @@ public class GameManager : Singleton<GameManager> {
 
     private void DisplayCards()
     {
+        foreach (Card x in currentPool)
+        {
+             x.transform.parent = myParent;
+        }
+    }
 
+    private void RemoveCards()
+    {
+        foreach (Card x in currentPool)
+        {
+            x.transform.parent = null;
+        }
     }
 
     private void DisplayObjective(int num)
