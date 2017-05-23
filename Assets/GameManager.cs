@@ -6,28 +6,30 @@ using System;
 public class GameManager : Singleton<GameManager> {
     bool pickEnabled;
     List<Card> currentPool;
-    Card targetCard;
+    Transform myCanvas;
     System.Random rng;
     public int rounds;
     //Bounds for how many cards per round
     public int lowerBound, upperBound;
     public int numOfChoices;
-    public Transform myCanvas;
+    public float timeToDisplay;
+    [NonSerialized]
+    public Card targetCard;
 
     private void Start()
     {
-        myCanvas = GameObject.Find("Canvas").transform;
+        myCanvas = Canvas.Instance.transform;
         rng = new System.Random();
         currentPool = new List<Card>();
         //How many rounds to go through in the game
         for (int x = 0; x < rounds; x++)
         {
-            StartRound();
+            StartCoroutine(StartRound());
         }
     }
 
     //The Body of each indivdual round
-    private void StartRound()
+    private IEnumerator StartRound()
     {
         ObjectPooler.Instance.Shuffle();
         //Pull IFT cards into the current pool
@@ -40,13 +42,14 @@ public class GameManager : Singleton<GameManager> {
         }
         //Show the cards
         DisplayCards();
+        yield return new WaitForSeconds(timeToDisplay);
         //Functionality for picking and winning/losing the round
-        DisplayObjective(numOfCards);
         //Pull distraction cards
         for(int x = 0; x < numOfChoices - numOfCards; x++)
         {
             currentPool.Add(ObjectPooler.Instance.GetAllObject());
         }
+        DisplayObjective(numOfCards);
         DisplayCards();
     }
 

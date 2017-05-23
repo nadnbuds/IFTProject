@@ -71,24 +71,21 @@ public class ObjectPooler : Singleton<ObjectPooler> {
 
     public void Shuffle()
     {
+        Shuffle(IFTPool);
+        Shuffle(CompletePool);
+    }
+
+    public void Shuffle<T>(List<T> list)
+    {
         System.Random rng = new System.Random();
-        int n = CompletePool.Count;
-        while(n > 1)
-        {
-            n--;
-            int x = rng.Next(n + 1);
-            Card temp = CompletePool[x];
-            CompletePool[x] = CompletePool[n];
-            CompletePool[n] = temp;
-        }
-        n = IFTPool.Count;
+        int n = list.Count;
         while (n > 1)
         {
             n--;
             int x = rng.Next(n + 1);
-            Card temp = IFTPool[x];
-            IFTPool[x] = IFTPool[n];
-            IFTPool[n] = temp;
+            T temp = list[x];
+            list[x] = list[n];
+            list[n] = temp;
         }
     }
 }
