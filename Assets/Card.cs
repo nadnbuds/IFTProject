@@ -56,7 +56,7 @@ public class Card : MonoBehaviour {
         myBody = this.gameObject;
         myButton = this.gameObject.GetComponent<Button>();
         myText = this.gameObject.GetComponentInChildren<Text>();
-        myWord = randomWord();
+        //myWord = randomWord();
         myText.text = myWord.ToString();
 	}
 	

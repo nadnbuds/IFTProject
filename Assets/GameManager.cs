@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager : Singleton<GameManager> {
     bool pickEnabled;
     List<Card> currentPool;
     Card targetCard;
+    System.Random rng;
     public int rounds;
     //Bounds for how many cards per round
     public int lowerBound, upperBound;
@@ -13,6 +15,7 @@ public class GameManager : Singleton<GameManager> {
 
     private void Start()
     {
+        rng = new System.Random();
         //How many rounds to go through in the game
         for (int x = 0; x < rounds; x++)
         {
@@ -25,7 +28,7 @@ public class GameManager : Singleton<GameManager> {
     {
         ObjectPooler.Instance.Shuffle();
         //Pull IFT cards into the current pool
-        int numOfCards = Random.Range(lowerBound, upperBound);
+        int numOfCards = rng.Next(lowerBound, upperBound);
         for(int x = 0; x < numOfCards; x++)
         {
             currentPool.Add(ObjectPooler.Instance.GetIFTObject());
@@ -49,7 +52,7 @@ public class GameManager : Singleton<GameManager> {
 
     private void DisplayObjective(int num)
     {
-        int target = Random.Range(1, num);
+        int target = rng.Next(1, num);
         //Put pick [number] card on screen
         target -= 1;
         targetCard = currentPool[target];

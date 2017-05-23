@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ObjectPooler : Singleton<ObjectPooler> {
     //Parent Object
@@ -13,11 +14,12 @@ public class ObjectPooler : Singleton<ObjectPooler> {
     //Number of IFT Words
     public int numIFTWords;
     //Number of Total words
-    public int numObjToMake;
+    int numObjToMake;
 
     private void Awake()
     {
         parentPool = this.gameObject.transform;
+        numObjToMake = Enum.GetNames(typeof(Words)).Length;
         CreateObjects(numObjToMake);
     }
 
@@ -69,6 +71,24 @@ public class ObjectPooler : Singleton<ObjectPooler> {
 
     public void Shuffle()
     {
-
+        System.Random rng = new System.Random();
+        int n = CompletePool.Count;
+        while(n > 1)
+        {
+            n--;
+            int x = rng.Next(n + 1);
+            Card temp = CompletePool[x];
+            CompletePool[x] = CompletePool[n];
+            CompletePool[n] = temp;
+        }
+        n = IFTPool.Count;
+        while (n > 1)
+        {
+            n--;
+            int x = rng.Next(n + 1);
+            Card temp = IFTPool[x];
+            IFTPool[x] = IFTPool[n];
+            IFTPool[n] = temp;
+        }
     }
 }
