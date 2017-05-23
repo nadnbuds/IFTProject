@@ -12,10 +12,13 @@ public class GameManager : Singleton<GameManager> {
     //Bounds for how many cards per round
     public int lowerBound, upperBound;
     public int numOfChoices;
+    public Transform myCanvas;
 
     private void Start()
     {
+        myCanvas = GameObject.Find("Canvas").transform;
         rng = new System.Random();
+        currentPool = new List<Card>();
         //How many rounds to go through in the game
         for (int x = 0; x < rounds; x++)
         {
@@ -31,7 +34,9 @@ public class GameManager : Singleton<GameManager> {
         int numOfCards = rng.Next(lowerBound, upperBound);
         for(int x = 0; x < numOfCards; x++)
         {
+            Debug.Log("Pulling");
             currentPool.Add(ObjectPooler.Instance.GetIFTObject());
+            currentPool[x].transform.parent = myCanvas;
         }
         //Show the cards
         DisplayCards();
