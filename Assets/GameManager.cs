@@ -4,7 +4,8 @@ using UnityEngine;
 using System;
 
 public class GameManager : Singleton<GameManager> {
-    bool pickEnabled;
+    [HideInInspector]
+    public bool pickEnabled;
     List<Card> currentPool;
     Transform myParent;
     System.Random rng;
@@ -13,7 +14,6 @@ public class GameManager : Singleton<GameManager> {
     public int lowerBound, upperBound;
     public int numOfChoices;
     public float timeToDisplay;
-    [NonSerialized]
     public Card targetCard;
 
     private void Start()
@@ -22,10 +22,7 @@ public class GameManager : Singleton<GameManager> {
         rng = new System.Random();
         currentPool = new List<Card>();
         //How many rounds to go through in the game
-        for (int x = 0; x < rounds; x++)
-        {
-            StartCoroutine(StartRound());
-        }
+        StartCoroutine(StartRound());
     }
 
     //The Body of each indivdual round
@@ -43,13 +40,13 @@ public class GameManager : Singleton<GameManager> {
         DisplayCards();
         yield return new WaitForSeconds(timeToDisplay);
         RemoveCards();
-        //Functionality for picking and winning/losing the round
         //Pull distraction cards
+        DisplayObjective(numOfCards);
         for(int x = 0; x < numOfChoices - numOfCards; x++)
         {
             currentPool.Add(ObjectPooler.Instance.GetAllObject());
         }
-        DisplayObjective(numOfCards);
+        ObjectPooler.Instance.Shuffle(currentPool);
         DisplayCards();
     }
 
@@ -57,7 +54,8 @@ public class GameManager : Singleton<GameManager> {
     {
         foreach (Card x in currentPool)
         {
-             x.transform.parent = myParent;
+            x.gameObject.SetActive(true);
+            x.transform.parent = myParent;
         }
     }
 
@@ -65,7 +63,8 @@ public class GameManager : Singleton<GameManager> {
     {
         foreach (Card x in currentPool)
         {
-            x.transform.parent = null;
+            x.gameObject.SetActive(false);
+            x.transform.parent = ObjectPooler.Instance.parentPool;
         }
     }
 
@@ -76,7 +75,6 @@ public class GameManager : Singleton<GameManager> {
         target -= 1;
         targetCard = currentPool[target];
         pickEnabled = true;
-        ObjectPooler.Instance.Shuffle(currentPool);
     }
 
     private void DisplayText(int target)
@@ -103,6 +101,21 @@ public class GameManager : Singleton<GameManager> {
 
     public void CorrectCardPick(bool correct)
     {
-
+        if (correct)
+        {
+            Canvas.Instance.headerDisplay.text = "Correct!";
+        }
+        else
+        {
+            Canvas.Instance.headerDisplay.text = "Sorry, that was incorrect";
+        }
+        pickEnabled = false;
+        rounds--;
+        if(rounds > 0)
+        {
+            RemoveCards();
+            currentPool.Clear();
+            StartCoroutine(StartRound());
+        }
     }
 }

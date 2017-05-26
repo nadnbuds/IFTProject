@@ -5,7 +5,7 @@ using System;
 
 public class ObjectPooler : Singleton<ObjectPooler> {
     //Parent Object
-    private Transform parentPool;
+    public Transform parentPool;
     public Card objToClone;
     //Pool with distractors
     public List<Card> CompletePool;

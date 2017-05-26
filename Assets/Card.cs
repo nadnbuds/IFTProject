@@ -63,13 +63,16 @@ public class Card : MonoBehaviour {
 	
     public void checkSameCard()
     {
-        if (myWord == GameManager.Instance.targetCard.myWord)
+        if (GameManager.Instance.pickEnabled)
         {
-            GameManager.Instance.CorrectCardPick(true);
-        }
-        else
-        {
-            GameManager.Instance.CorrectCardPick(false);
+            if (myWord == GameManager.Instance.targetCard.myWord)
+            {
+                GameManager.Instance.CorrectCardPick(true);
+            }
+            else
+            {
+                GameManager.Instance.CorrectCardPick(false);
+            }
         }
     }
 	// Update is called once per frame
