@@ -8,7 +8,9 @@ public class GameManager : Singleton<GameManager> {
     public bool pickEnabled;
     List<Card> currentPool;
     Transform myParent;
+    Transform myHolder;
     System.Random rng;
+    int numOfCards;
     public int rounds;
     //Bounds for how many cards per round
     public int lowerBound, upperBound;
@@ -19,35 +21,39 @@ public class GameManager : Singleton<GameManager> {
     private void Start()
     {
         myParent = Canvas.Instance.cardDisplay.transform;
+        myHolder = Canvas.Instance.cardHolder.transform;
         rng = new System.Random();
         currentPool = new List<Card>();
         //How many rounds to go through in the game
-        StartCoroutine(StartRound());
+        StartRound();
     }
 
     //The Body of each indivdual round
-    private IEnumerator StartRound()
+    private void StartRound()
     {
         ObjectPooler.Instance.Shuffle();
         //Pull IFT cards into the current pool
-        int numOfCards = rng.Next(lowerBound, upperBound);
+        numOfCards = rng.Next(lowerBound, upperBound);
         for(int x = 0; x < numOfCards; x++)
         {
             Debug.Log("Pulling");
             currentPool.Add(ObjectPooler.Instance.GetIFTObject());
         }
         //Show the cards
-        DisplayCards();
-        yield return new WaitForSeconds(timeToDisplay);
-        RemoveCards();
+        StartCoroutine(FlashCards());
         //Pull distraction cards
+    }
+    private void EndRound()
+    {
         DisplayObjective(numOfCards);
-        for(int x = 0; x < numOfChoices - numOfCards; x++)
+        for (int x = 0; x < numOfChoices - numOfCards; x++)
         {
+            Debug.Log("Adding");
             currentPool.Add(ObjectPooler.Instance.GetAllObject());
         }
         ObjectPooler.Instance.Shuffle(currentPool);
         DisplayCards();
+        Debug.Log(currentPool.Count);
     }
 
     private void DisplayCards()
@@ -57,6 +63,18 @@ public class GameManager : Singleton<GameManager> {
             x.gameObject.SetActive(true);
             x.transform.parent = myParent;
         }
+    }
+
+    private IEnumerator FlashCards()
+    {
+        foreach(Card x in currentPool)
+        {
+            x.gameObject.SetActive(true);
+            x.transform.parent = myHolder;
+            yield return new WaitForSeconds(timeToDisplay);
+            x.gameObject.SetActive(false);
+        }
+        EndRound();
     }
 
     private void RemoveCards()
@@ -115,7 +133,7 @@ public class GameManager : Singleton<GameManager> {
         {
             RemoveCards();
             currentPool.Clear();
-            StartCoroutine(StartRound());
+            StartRound();
         }
     }
 }

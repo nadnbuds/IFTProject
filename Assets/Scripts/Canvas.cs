@@ -7,6 +7,7 @@ public class Canvas : Singleton<Canvas> {
 
     public Text headerDisplay;
     public GridLayoutGroup cardDisplay;
+    public GameObject cardHolder;
 	// Use this for initialization
 	void Start () {
         headerDisplay.gameObject.SetActive(false);
