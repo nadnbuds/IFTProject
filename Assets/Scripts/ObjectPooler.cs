@@ -19,7 +19,6 @@ public class ObjectPooler : Singleton<ObjectPooler> {
     //Number of IFT Words
     public int numIFTWords;
     //Number of Total words
-    public int numImages;
     int numObjToMake;
 
     private void Awake()
@@ -36,7 +35,6 @@ public class ObjectPooler : Singleton<ObjectPooler> {
             Card obj = Instantiate<Card>(objToClone);
             obj.gameObject.SetActive(false);
             obj.transform.parent = parentPool;
-            obj.myText.text = "";
             Image image = obj.gameObject.GetComponent<Image>();
             image.sprite = Images[i];
             ImagePool.Add(obj);

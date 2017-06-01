@@ -11,13 +11,13 @@ public class GameManager : Singleton<GameManager> {
     Transform myHolder;
     System.Random rng;
     int numOfCards;
+    public int numImages;
     public int rounds;
     //Bounds for how many cards per round
     public int lowerBound, upperBound;
     public int numOfChoices;
     public float timeToDisplay;
     public Card targetCard;
-    public int numImages;
 
     private void Start()
     {
@@ -35,12 +35,12 @@ public class GameManager : Singleton<GameManager> {
         ObjectPooler.Instance.Shuffle();
         //Pull IFT cards into the current pool
         numOfCards = rng.Next(lowerBound, upperBound);
-        int numOfImages = ObjectPooler.Instance.ImagePool.Count;
-        for (int i = 0; i < numOfImages; ++i)
+
+        for (int i = 0; i < numImages; ++i)
         {
             currentPool.Add(ObjectPooler.Instance.GetImage());
         }
-        for(int x = 0; x < numOfCards - numOfImages; x++)
+        for(int x = 0; x < numOfCards; x++)
         {
             Debug.Log("Pulling Cards");
             currentPool.Add(ObjectPooler.Instance.GetIFTObject());
