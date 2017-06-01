@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class ObjectPooler : Singleton<ObjectPooler> {
@@ -11,9 +12,14 @@ public class ObjectPooler : Singleton<ObjectPooler> {
     public List<Card> CompletePool;
     //Pool with IFT Only
     public List<Card> IFTPool;
+    //Image list
+    public List<Sprite> Images;
+    //list of cards with images
+    public List<Card> ImagePool;
     //Number of IFT Words
     public int numIFTWords;
     //Number of Total words
+    public int numImages;
     int numObjToMake;
 
     private void Awake()
@@ -25,7 +31,18 @@ public class ObjectPooler : Singleton<ObjectPooler> {
 
     public void CreateObjects(int x)
     {
-        for(int y = 0; y < x; y++)
+        for (int i = 0; i < Images.Count; ++i)
+        {
+            Card obj = Instantiate<Card>(objToClone);
+            obj.gameObject.SetActive(false);
+            obj.transform.parent = parentPool;
+            obj.myText.text = "";
+            Image image = obj.gameObject.GetComponent<Image>();
+            image.sprite = Images[i];
+            ImagePool.Add(obj);
+        }
+
+        for(int y = 0; y < x - Images.Count; y++)
         {
             Card obj = Instantiate<Card>(objToClone);
             obj.gameObject.SetActive(false);
@@ -69,10 +86,24 @@ public class ObjectPooler : Singleton<ObjectPooler> {
         return null;
     }
 
+    public Card GetImage()
+    {
+        foreach (Card x in ImagePool)
+        {
+            if (!x.gameObject.activeInHierarchy)
+            {
+                x.gameObject.SetActive(true);
+                return x;
+            }
+        }
+        return null;
+    }
+
     public void Shuffle()
     {
         Shuffle(IFTPool);
         Shuffle(CompletePool);
+        Shuffle(ImagePool);
     }
 
     public void Shuffle<T>(List<T> list)

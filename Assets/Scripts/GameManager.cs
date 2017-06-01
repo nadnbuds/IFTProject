@@ -17,6 +17,7 @@ public class GameManager : Singleton<GameManager> {
     public int numOfChoices;
     public float timeToDisplay;
     public Card targetCard;
+    public int numImages;
 
     private void Start()
     {
@@ -34,11 +35,19 @@ public class GameManager : Singleton<GameManager> {
         ObjectPooler.Instance.Shuffle();
         //Pull IFT cards into the current pool
         numOfCards = rng.Next(lowerBound, upperBound);
-        for(int x = 0; x < numOfCards; x++)
+        int numOfImages = ObjectPooler.Instance.ImagePool.Count;
+        for (int i = 0; i < numOfImages; ++i)
         {
-            Debug.Log("Pulling");
+            currentPool.Add(ObjectPooler.Instance.GetImage());
+        }
+        for(int x = 0; x < numOfCards - numOfImages; x++)
+        {
+            Debug.Log("Pulling Cards");
             currentPool.Add(ObjectPooler.Instance.GetIFTObject());
         }
+        ObjectPooler.Instance.Shuffle<Card>(currentPool);
+        int randomCard = rng.Next(0, numOfCards);
+
         //Show the cards
         StartCoroutine(FlashCards());
         //Pull distraction cards
@@ -113,7 +122,7 @@ public class GameManager : Singleton<GameManager> {
                 place = target + "th";
                 break;
         }
-        Canvas.Instance.headerDisplay.text = "Pick the " + place + " card in the row previously displayed";
+        Canvas.Instance.headerDisplay.text = "Pick the " + place + " card displayed";
         Canvas.Instance.headerDisplay.gameObject.SetActive(true);
     }
 
