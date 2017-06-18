@@ -7,59 +7,42 @@ using System;
 public class ObjectPooler : Singleton<ObjectPooler> {
     //Parent Object
     public Transform parentPool;
-    public Card objToClone;
-    //Pool with distractors
-    public List<Card> CompletePool;
     //Pool with IFT Only
-    public List<Card> IFTPool;
-    //Image list
-    public List<Sprite> Images;
+    public List<Card> WordPool;
     //list of cards with images
     public List<Card> ImagePool;
-    //Number of IFT Words
-    public int numIFTWords;
-    //Number of Total words
-    int numObjToMake;
 
     private void Awake()
     {
         parentPool = this.gameObject.transform;
-        numObjToMake = Enum.GetNames(typeof(Words)).Length;
-        CreateObjects(numObjToMake);
+        CreateObjects();
     }
 
-    public void CreateObjects(int x)
+    public void CreateObjects()
     {
-        for (int i = 0; i < Images.Count; ++i)
+        foreach (CardContainer x in CardDirectory.Instance.cardDatabase)
         {
-            Card obj = Instantiate<Card>(objToClone);
-            obj.gameObject.SetActive(false);
-            obj.transform.parent = parentPool;
-            Image image = obj.gameObject.GetComponent<Image>();
-            image.sprite = Images[i];
-            ImagePool.Add(obj);
-        }
-
-        for(int y = 0; y < x - Images.Count; y++)
-        {
-            Card obj = Instantiate<Card>(objToClone);
-            obj.gameObject.SetActive(false);
-            obj.transform.parent = parentPool;
-            //Sets the word of the card
-            obj.myWord = (Words)y;
-            CompletePool.Add(obj);
-            //Adds to IFT pool if IFT word
-            if((int)obj.myWord < numIFTWords)
+            //Injects the container to the card and initializes it
+            Card temp = new Card(x);
+            temp.transform.parent = parentPool;
+            temp.gameObject.SetActive(false);
+            //Check if the card is an imagecard or word card using x
+            if (x.cardWord == null)
             {
-                IFTPool.Add(obj);
+                ImagePool.Add(temp);
+            }
+            else
+            {
+                WordPool.Add(temp);
             }
         }
+        GameManager.Instance.Shuffle(WordPool);
+        GameManager.Instance.Shuffle(ImagePool);
     }
-
-    //Get object from entire pool
-    public Card GetAllObject()
+    //Get card from WordPool
+    public Card GetWordCard()
     {
-        foreach (Card x in CompletePool)
+        foreach (Card x in WordPool)
         {
             if (!x.gameObject.activeInHierarchy)
             {
@@ -69,22 +52,8 @@ public class ObjectPooler : Singleton<ObjectPooler> {
         }
         return null;
     }
-
-    //Get object from IFT pool
-    public Card GetIFTObject()
-    {
-        foreach (Card x in IFTPool)
-        {
-            if (!x.gameObject.activeInHierarchy)
-            {
-                x.gameObject.SetActive(true);
-                return x;
-            }
-        }
-        return null;
-    }
-
-    public Card GetImage()
+    //Get card from ImagePool
+    public Card GetImageCard()
     {
         foreach (Card x in ImagePool)
         {
@@ -95,26 +64,5 @@ public class ObjectPooler : Singleton<ObjectPooler> {
             }
         }
         return null;
-    }
-
-    public void Shuffle()
-    {
-        Shuffle(IFTPool);
-        Shuffle(CompletePool);
-        Shuffle(ImagePool);
-    }
-
-    public void Shuffle<T>(List<T> list)
-    {
-        System.Random rng = new System.Random();
-        int n = list.Count;
-        while (n > 1)
-        {
-            n--;
-            int x = rng.Next(n + 1);
-            T temp = list[x];
-            list[x] = list[n];
-            list[n] = temp;
-        }
     }
 }

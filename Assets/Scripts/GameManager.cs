@@ -1,148 +1,177 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class GameManager : Singleton<GameManager> {
-    [HideInInspector]
-    public bool pickEnabled;
-    List<Card> currentPool;
-    Transform myParent;
-    Transform myHolder;
+    bool pickEnabled = false, roundPause = false, win = false;
+    int upperboundChoice, lowerboundChoice, numberOutOf, numOfImages;
+    [SerializeField]
+    int strikes, score;
+    float timeToDisplay;
+    List<Rules> rules;
+    Card targetCard;
+    List<Card> activePool;
     System.Random rng;
-    int numOfCards;
-    public int numImages;
-    public int rounds;
-    //Bounds for how many cards per round
-    public int lowerBound, upperBound;
-    public int numOfChoices;
-    public float timeToDisplay;
-    public Card targetCard;
 
-    private void Start()
+    private void Awake()
     {
-        myParent = Canvas.Instance.cardDisplay.transform;
-        myHolder = Canvas.Instance.cardHolder.transform;
         rng = new System.Random();
-        currentPool = new List<Card>();
-        //How many rounds to go through in the game
-        StartRound();
+        StartCoroutine(Round());
     }
-
-    //The Body of each indivdual round
-    private void StartRound()
+    IEnumerator Round()
     {
-        ObjectPooler.Instance.Shuffle();
-        //Pull IFT cards into the current pool
-        numOfCards = rng.Next(lowerBound, upperBound);
-
-        for (int i = 0; i < numImages; ++i)
-        {
-            currentPool.Add(ObjectPooler.Instance.GetImage());
-        }
-        for(int x = 0; x < numOfCards; x++)
-        {
-            Debug.Log("Pulling Cards");
-            currentPool.Add(ObjectPooler.Instance.GetIFTObject());
-        }
-        ObjectPooler.Instance.Shuffle<Card>(currentPool);
-        int randomCard = rng.Next(0, numOfCards);
-
-        //Show the cards
+        //Display the Round Countdown
+        roundPause = true;
+        StartCoroutine(CountDown());
+        //Get the random set of Cards for the round
+        int wordPullNumber = rng.Next(upperboundChoice, lowerboundChoice + 1);
+        //Add image bounds here if needed
+        int imagePullNumber = numOfImages;
+        AddCards(wordPullNumber,imagePullNumber);
+        Shuffle(activePool);
+        //Pause coroutine till CountDown is done
+        while (roundPause) { yield return null; }
+        roundPause = true;
+        //Begin flashing cards to memorize
         StartCoroutine(FlashCards());
-        //Pull distraction cards
-    }
-    private void EndRound()
-    {
-        DisplayObjective(numOfCards);
-        for (int x = 0; x < numOfChoices - numOfCards; x++)
-        {
-            Debug.Log("Adding");
-            currentPool.Add(ObjectPooler.Instance.GetAllObject());
-        }
-        ObjectPooler.Instance.Shuffle(currentPool);
+        //Set Target Card
+        int target = rng.Next(wordPullNumber);
+        targetCard = activePool[target];
+        //Pause coroutine till FlashCards is done
+        while (roundPause) { yield return null; }
+        //Add and display the rest of the cards to select from
+        AddCards(numberOutOf, 0);
+        Shuffle(activePool);
         DisplayCards();
-        Debug.Log(currentPool.Count);
-    }
-
-    private void DisplayCards()
-    {
-        foreach (Card x in currentPool)
-        {
-            x.gameObject.SetActive(true);
-            x.transform.parent = myParent;
-        }
-    }
-
-    private IEnumerator FlashCards()
-    {
-        foreach(Card x in currentPool)
-        {
-            x.gameObject.SetActive(true);
-            x.transform.parent = myHolder;
-            yield return new WaitForSeconds(timeToDisplay);
-            x.gameObject.SetActive(false);
-        }
-        EndRound();
-    }
-
-    private void RemoveCards()
-    {
-        foreach (Card x in currentPool)
-        {
-            x.gameObject.SetActive(false);
-            x.transform.parent = ObjectPooler.Instance.parentPool;
-        }
-    }
-
-    private void DisplayObjective(int num)
-    {
-        int target = rng.Next(1, num);
-        DisplayText(target);
-        target -= 1;
-        targetCard = currentPool[target];
+        DisplayHeader(target + 1);
         pickEnabled = true;
+        //Pause coroutine till card is selected
+        while (pickEnabled) { yield return null; }
+        //Finish the round
+        FinishRound();
     }
-
-    private void DisplayText(int target)
+    IEnumerator FlashCards()
     {
-        string place;
+        Transform cardHolder = Canvas.Instance.cardHolder.transform;
+        Transform reset = ObjectPooler.Instance.parentPool;
+        foreach(Card x in activePool)
+        {
+            x.transform.parent = cardHolder;
+            x.gameObject.SetActive(true);
+            yield return new WaitForSeconds(timeToDisplay);
+            x.transform.parent = reset;
+        }
+        roundPause = false;
+    }
+    //Counts down till the begining of the round
+    IEnumerator CountDown()
+    {
+        Text myHeader = Canvas.Instance.headerDisplay;
+        string Prompt = "Round begins in... ";
+        myHeader.text = Prompt + "3";
+        yield return new WaitForSeconds(1f);
+        myHeader.text = Prompt + "2";
+        yield return new WaitForSeconds(1f);
+        myHeader.text = Prompt + "1";
+        yield return new WaitForSeconds(1f);
+        myHeader.text = "";
+        roundPause = false;
+    }
+    //Adds cards to the current pool
+    void AddCards(int wordsToPull, int imagesToPull)
+    {
+        for(int x = 0; x < imagesToPull; x++)
+        {
+            activePool.Add(ObjectPooler.Instance.GetImageCard());
+        }
+        for(int x = activePool.Count; x < wordsToPull + 1; x++)
+        {
+            activePool.Add(ObjectPooler.Instance.GetWordCard());
+        }
+    }
+    void DisplayHeader(int target)
+    {
+        Text myHeader = Canvas.Instance.headerDisplay;
+        
         switch (target)
         {
             case 1:
-                place = "1st";
+                myHeader.text = "Select the 1st card displayed";
                 break;
             case 2:
-                place = "2nd";
+                myHeader.text = "Select the 2nd card displayed";
                 break;
             case 3:
-                place = "3rd";
+                myHeader.text = "Select the 3rd card displayed";
                 break;
             default:
-                place = target + "th";
+                myHeader.text = "Select the " + target + "th card displayed";
                 break;
         }
-        Canvas.Instance.headerDisplay.text = "Pick the " + place + " card displayed";
-        Canvas.Instance.headerDisplay.gameObject.SetActive(true);
     }
-
-    public void CorrectCardPick(bool correct)
+    void DisplayCards()
     {
-        if (correct)
+        Transform display = Canvas.Instance.cardDisplay.transform;
+        foreach(Card x in activePool)
         {
-            Canvas.Instance.headerDisplay.text = "Correct!";
+            x.transform.parent = display;
+            x.gameObject.SetActive(true);
+        }
+    }
+    void RemoveCards()
+    {
+        Transform display = ObjectPooler.Instance.parentPool;
+        foreach (Card x in activePool)
+        {
+            x.transform.parent = display;
+            x.gameObject.SetActive(false);
+        }
+    }
+    void FinishRound()
+    {
+        Text myHeader = Canvas.Instance.headerDisplay;
+        RemoveCards();
+        activePool.Clear();
+        pickEnabled = false;
+        if (!win)
+        {
+            strikes--;
+            myHeader.text = "Sorry that was the wrong Card";
         }
         else
         {
-            Canvas.Instance.headerDisplay.text = "Sorry, that was incorrect";
+            score++;
+            myHeader.text = "Good job, that was correct!";
+        }
+        if(strikes > 0)
+        {
+            StartCoroutine(Round());
+        }
+        else
+        {
+            //Insert end screen here
+        }
+    }
+    public void SelectCard(Card reference)
+    {
+        if(reference == targetCard)
+        {
+            win = true;
         }
         pickEnabled = false;
-        rounds--;
-        if(rounds > 0)
+    }
+    public void Shuffle<T>(List<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
         {
-            RemoveCards();
-            currentPool.Clear();
-            StartRound();
+            n--;
+            int x = rng.Next(n + 1);
+            T temp = list[x];
+            list[x] = list[n];
+            list[n] = temp;
         }
     }
 }
