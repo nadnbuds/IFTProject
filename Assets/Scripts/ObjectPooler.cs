@@ -7,6 +7,8 @@ using System;
 public class ObjectPooler : Singleton<ObjectPooler> {
     //Parent Object
     public Transform parentPool;
+    //Object base to clone
+    public Card myObj;
     //Pool with IFT Only
     public List<Card> WordPool;
     //list of cards with images
@@ -23,7 +25,8 @@ public class ObjectPooler : Singleton<ObjectPooler> {
         foreach (CardContainer x in CardDirectory.Instance.cardDatabase)
         {
             //Injects the container to the card and initializes it
-            Card temp = new Card(x);
+            Card temp = GameObject.Instantiate<Card>(myObj) as Card;
+            temp.Inject(x);
             temp.transform.parent = parentPool;
             temp.gameObject.SetActive(false);
             //Check if the card is an imagecard or word card using x
@@ -36,8 +39,6 @@ public class ObjectPooler : Singleton<ObjectPooler> {
                 WordPool.Add(temp);
             }
         }
-        GameManager.Instance.Shuffle(WordPool);
-        GameManager.Instance.Shuffle(ImagePool);
     }
     //Get card from WordPool
     public Card GetWordCard()
@@ -64,5 +65,11 @@ public class ObjectPooler : Singleton<ObjectPooler> {
             }
         }
         return null;
+    }
+
+    public void Shuffle()
+    {
+        GameManager.Instance.Shuffle(WordPool);
+        GameManager.Instance.Shuffle(ImagePool);
     }
 }

@@ -8,18 +8,19 @@ public class Card : MonoBehaviour {
     Text myText;
     Image myImage;
     //Inject Constructor
-    public Card(CardContainer inject)
+    public void Awake()
+    {
+        myText = this.gameObject.GetComponentInChildren<Text>();
+        myImage = this.gameObject.GetComponent<Image>();
+    }
+    public void CheckSameCard()
+    {
+        GameManager.Instance.SelectCard(this);
+    }
+
+    public void Inject(CardContainer inject)
     {
         myText.text = inject.cardWord;
         myImage = inject.cardPicture;
-    }
-    public void Awake()
-    {
-        myText = this.gameObject.GetComponent<Text>();
-        myImage = this.gameObject.GetComponent<Image>();
-    }
-    public void checkSameCard()
-    {
-        GameManager.Instance.SelectCard(this);
     }
 }

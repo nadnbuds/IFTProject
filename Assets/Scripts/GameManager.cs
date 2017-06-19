@@ -18,6 +18,7 @@ public class GameManager : Singleton<GameManager> {
     private void Awake()
     {
         rng = new System.Random();
+        activePool = new List<Card>();
         StartCoroutine(Round());
     }
     IEnumerator Round()
@@ -82,6 +83,7 @@ public class GameManager : Singleton<GameManager> {
     //Adds cards to the current pool
     void AddCards(int wordsToPull, int imagesToPull)
     {
+        ObjectPooler.Instance.Shuffle();
         for(int x = 0; x < imagesToPull; x++)
         {
             activePool.Add(ObjectPooler.Instance.GetImageCard());

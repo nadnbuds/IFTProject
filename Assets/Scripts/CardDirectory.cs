@@ -15,14 +15,14 @@ public struct CardContainer
 }
 
 public class CardDirectory : Singleton<CardDirectory> {
-
-    [HideInInspector]
-    public LinkedList<CardContainer> cardDatabase;
+    
+    public List<CardContainer> cardDatabase;
 
     public List<string> devWordList;
 
     private void Awake()
     {
+        cardDatabase = new List<CardContainer>();
         //ReadDirectory()
         //Temporary population tool
         DevPopulate();
@@ -38,21 +38,20 @@ public class CardDirectory : Singleton<CardDirectory> {
     {
         foreach(string x in devWordList)
         {
-            cardDatabase.AddLast(WrapObject(x));
+            Debug.Log("Test" + cardDatabase.Count);
+            cardDatabase.Add(WrapObject(x));
         }
     }
 
     //Two overloads to automatically determine the object type(Image or string) and wrap it in the container and return it
     private CardContainer WrapObject(Image myPicture)
     {
-        CardContainer temp = new CardContainer(null, myPicture);
-        return temp;
+        return new CardContainer(null, myPicture);
     }
 
     private CardContainer WrapObject(string myWord)
     {
-        CardContainer temp = new CardContainer(myWord, null);
-        return temp;
+        return new CardContainer(myWord, null);
     }
 
 }
