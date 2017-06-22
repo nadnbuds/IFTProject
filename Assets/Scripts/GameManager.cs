@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using System;
 
 public class GameManager : Singleton<GameManager> {
-    bool pickEnabled = false, roundPause = false, win = false;
-    int upperboundChoice, lowerboundChoice, numberOutOf, numOfImages;
     [SerializeField]
+    bool pickEnabled = false, roundPause = false, win = false;
+    [SerializeField]
+    int upperboundChoice, lowerboundChoice, numberOutOf, numOfImages;
     int strikes, score;
+    [SerializeField]
     float timeToDisplay;
     List<Rules> rules;
     Card targetCard;
@@ -18,6 +20,7 @@ public class GameManager : Singleton<GameManager> {
     private void Awake()
     {
         rng = new System.Random();
+        strikes = 3;
         activePool = new List<Card>();
         StartCoroutine(Round());
     }
@@ -51,7 +54,8 @@ public class GameManager : Singleton<GameManager> {
         //Pause coroutine till card is selected
         while (pickEnabled) { yield return null; }
         //Finish the round
-        FinishRound();
+        Debug.Log("Finish");
+        StartCoroutine(FinishRound());
     }
     IEnumerator FlashCards()
     {
@@ -70,6 +74,7 @@ public class GameManager : Singleton<GameManager> {
     IEnumerator CountDown()
     {
         Text myHeader = Canvas.Instance.headerDisplay;
+        myHeader.gameObject.SetActive(true);
         string Prompt = "Round begins in... ";
         myHeader.text = Prompt + "3";
         yield return new WaitForSeconds(1f);
@@ -78,6 +83,7 @@ public class GameManager : Singleton<GameManager> {
         myHeader.text = Prompt + "1";
         yield return new WaitForSeconds(1f);
         myHeader.text = "";
+        myHeader.gameObject.SetActive(false);
         roundPause = false;
     }
     //Adds cards to the current pool
@@ -96,7 +102,7 @@ public class GameManager : Singleton<GameManager> {
     void DisplayHeader(int target)
     {
         Text myHeader = Canvas.Instance.headerDisplay;
-        
+        myHeader.gameObject.SetActive(true);
         switch (target)
         {
             case 1:
@@ -131,7 +137,7 @@ public class GameManager : Singleton<GameManager> {
             x.gameObject.SetActive(false);
         }
     }
-    void FinishRound()
+    IEnumerator FinishRound()
     {
         Text myHeader = Canvas.Instance.headerDisplay;
         RemoveCards();
@@ -141,23 +147,27 @@ public class GameManager : Singleton<GameManager> {
         {
             strikes--;
             myHeader.text = "Sorry that was the wrong Card";
+            if (strikes > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                StartCoroutine(Round());
+            }
+            else
+            {
+                //Insert end screen here
+            }
         }
         else
         {
             score++;
             myHeader.text = "Good job, that was correct!";
-        }
-        if(strikes > 0)
-        {
+            yield return new WaitForSeconds(1f);
             StartCoroutine(Round());
-        }
-        else
-        {
-            //Insert end screen here
         }
     }
     public void SelectCard(Card reference)
     {
+        win = false;
         if(reference == targetCard)
         {
             win = true;

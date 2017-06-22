@@ -10,7 +10,7 @@ public class Canvas : Singleton<Canvas> {
     public GameObject cardHolder;
 	// Use this for initialization
 	void Start () {
-        headerDisplay.gameObject.SetActive(false);
+        //headerDisplay.gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
