@@ -13,16 +13,40 @@ public class GameManager : Singleton<GameManager> {
     [SerializeField]
     float timeToDisplay;
     List<Rules> rules;
+    [SerializeField]
     Card targetCard;
+    [SerializeField]
     List<Card> activePool;
     System.Random rng;
-
+    [SerializeField]
+    GameObject scoreDisplay;
+    [SerializeField]
+    GameObject strikeDisplay;
     private void Awake()
     {
         rng = new System.Random();
         strikes = 3;
         activePool = new List<Card>();
+        score = 0;
+        UpdateScoreStrikes();
         StartCoroutine(Round());
+    }
+    private void UpdateScoreStrikes() //Updates the Score/Strikes Number for Gamemanager
+    {
+        scoreDisplay = GameObject.Find("ScoreText");
+        strikeDisplay = GameObject.Find("StrikesText");
+        scoreDisplay.GetComponent<Text>().text = "Score: " + score;
+        strikeDisplay.GetComponent<Text>().text = "Strikes: " + strikes;
+    }
+    private void DisplayScoreStrikes() //Sets the Score/Strike UI Elements to active and visible
+    {
+        scoreDisplay.SetActive(true);
+        strikeDisplay.SetActive(true);
+    }
+    private void HideScoreStrikes() //Sets the Score/Strike UI Elements to inactive and hidden
+    {
+        scoreDisplay.SetActive(false);
+        strikeDisplay.SetActive(false);
     }
     IEnumerator Round()
     {
@@ -164,6 +188,7 @@ public class GameManager : Singleton<GameManager> {
             yield return new WaitForSeconds(1f);
             StartCoroutine(Round());
         }
+        UpdateScoreStrikes();
     }
     public void SelectCard(Card reference)
     {
