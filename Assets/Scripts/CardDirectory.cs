@@ -20,9 +20,6 @@ public class CardDirectory : Singleton<CardDirectory> {
 
     public List<string> devWordList;
 
-    public List<Texture2D> textures;
-
-    public Texture2D test;
     private void Awake()
     {
         cardDatabase = new List<CardContainer>();
@@ -35,14 +32,12 @@ public class CardDirectory : Singleton<CardDirectory> {
     {
         //Reads the directory "Input" and puts the file path in the injection
         string path = "./Assets/Input";
-        textures.Add(new Texture2D(0, 0));
         DirectoryInfo dInfo = new DirectoryInfo(path);
         //Filters for jpg only
         FileInfo[] fInfo = dInfo.GetFiles("*.jpg");
         foreach(FileInfo f in fInfo)
         {
             cardDatabase.Add(WrapObject(f));
-            Debug.Log("Test");
         }
 
         

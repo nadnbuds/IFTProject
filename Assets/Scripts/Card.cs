@@ -7,12 +7,12 @@ using System.IO;
 
 public class Card : MonoBehaviour {
     Text myText;
-    RawImage myImage;
+    Image myImage;
     //Inject Constructor
     public void Awake()
     {
         myText = this.gameObject.GetComponentInChildren<Text>();
-        myImage = this.gameObject.GetComponent<RawImage>();
+        myImage = this.gameObject.GetComponent<Image>();
     }
     public void CheckSameCard()
     {
@@ -26,8 +26,7 @@ public class Card : MonoBehaviour {
         {
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(File.ReadAllBytes("./Assets/Input" + "\\" + inject.cardPicture.Name));
-            myImage.texture = texture;
-            Debug.Log("Test");
+            myImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2());
         }
         myText.text = inject.cardWord;
     }

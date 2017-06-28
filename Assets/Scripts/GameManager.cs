@@ -118,7 +118,7 @@ public class GameManager : Singleton<GameManager> {
         {
             activePool.Add(ObjectPooler.Instance.GetImageCard());
         }
-        for(int x = activePool.Count; x < wordsToPull + 1; x++)
+        for(int x = activePool.Count; x < wordsToPull; x++)
         {
             activePool.Add(ObjectPooler.Instance.GetWordCard());
         }
