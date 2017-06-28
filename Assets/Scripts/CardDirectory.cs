@@ -25,7 +25,7 @@ public class CardDirectory : Singleton<CardDirectory> {
         cardDatabase = new List<CardContainer>();
         ReadDirectory();
         //Temporary population tool
-        DevPopulate();
+        //DevPopulate();
     }
 
     private void ReadDirectory()
@@ -39,8 +39,21 @@ public class CardDirectory : Singleton<CardDirectory> {
         {
             cardDatabase.Add(WrapObject(f));
         }
-
-        
+        StreamReader fileReader = new StreamReader(path + "\\words.txt");
+        string line;
+        using (fileReader)
+        {
+            do
+            {
+                line = fileReader.ReadLine();
+                if (line != null)
+                {
+                   cardDatabase.Add(WrapObject(line));
+                }
+            }
+            while (line != null);
+            fileReader.Close();
+        }
     }
 
     //Uses the devWordList to populate the cards which is temporary until readDir works
