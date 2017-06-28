@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.IO;
 public struct CardContainer
 {
     public string cardWord;
-    public Image cardPicture;
-    public CardContainer(string word, Image picture)
+    public FileInfo cardPicture;
+    public CardContainer(string word, FileInfo picture)
     {
         cardWord = word;
         cardPicture = picture;
@@ -15,22 +15,37 @@ public struct CardContainer
 }
 
 public class CardDirectory : Singleton<CardDirectory> {
-    
+
     public List<CardContainer> cardDatabase;
 
     public List<string> devWordList;
 
+    public List<Texture2D> textures;
+
+    public Texture2D test;
     private void Awake()
     {
         cardDatabase = new List<CardContainer>();
-        //ReadDirectory()
+        ReadDirectory();
         //Temporary population tool
         DevPopulate();
     }
 
     private void ReadDirectory()
     {
+        //Reads the directory "Input" and puts the file path in the injection
+        string path = "./Assets/Input";
+        textures.Add(new Texture2D(0, 0));
+        DirectoryInfo dInfo = new DirectoryInfo(path);
+        //Filters for jpg only
+        FileInfo[] fInfo = dInfo.GetFiles("*.jpg");
+        foreach(FileInfo f in fInfo)
+        {
+            cardDatabase.Add(WrapObject(f));
+            Debug.Log("Test");
+        }
 
+        
     }
 
     //Uses the devWordList to populate the cards which is temporary until readDir works
@@ -41,10 +56,11 @@ public class CardDirectory : Singleton<CardDirectory> {
             Debug.Log("Test" + cardDatabase.Count);
             cardDatabase.Add(WrapObject(x));
         }
+        //cardDatabase.Add(WrapObject(test));
     }
 
     //Two overloads to automatically determine the object type(Image or string) and wrap it in the container and return it
-    private CardContainer WrapObject(Image myPicture)
+    private CardContainer WrapObject(FileInfo myPicture)
     {
         return new CardContainer(null, myPicture);
     }
