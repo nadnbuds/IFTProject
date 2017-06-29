@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 1ada0780e58a3de46be0561a5cb6b7c0
+timeCreated: 1498774491
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway UltraExpand Bold
+  fontNames:
+  - Walkway UltraExpand Bold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

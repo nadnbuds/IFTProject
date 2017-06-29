@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: c4268d5cc2e72774fb4b402dd3f84729
+timeCreated: 1498774493
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway SemiBold RevOblique
+  fontNames:
+  - Walkway SemiBold RevOblique
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

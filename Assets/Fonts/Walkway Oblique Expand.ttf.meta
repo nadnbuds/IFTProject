@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 4afd4f3c019679f41a903512944f0c06
+timeCreated: 1498774491
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: 'Walkway Oblique Expand '
+  fontNames:
+  - 'Walkway Oblique Expand '
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

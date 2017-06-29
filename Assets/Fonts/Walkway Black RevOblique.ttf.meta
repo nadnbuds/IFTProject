@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e23cbbbef97d0ab4a87084acf0811a1a
+timeCreated: 1498774495
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway Black RevOblique
+  fontNames:
+  - Walkway Black RevOblique
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

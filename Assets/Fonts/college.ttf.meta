@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: f1fc6614ea5720e4a894ecd891c17faa
+timeCreated: 1498774495
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: College
+  fontNames:
+  - College
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ce94ae53b7ec6cc41ac921dd87f09306, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

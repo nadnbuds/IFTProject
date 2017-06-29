@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: e743c8587a17656409327b60240dfe1f
+timeCreated: 1498774495
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Philosopher
+  fontNames:
+  - Philosopher
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a15e9373a3fe2d047b62ab7d71ff6a27, type: 3}
+  - {fileID: 12800000, guid: d0e0b59463ee44b409e58b20564d1c0a, type: 3}
+  - {fileID: 12800000, guid: a26d018878ae99043939eafdced5b098, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
