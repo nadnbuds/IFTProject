@@ -5,8 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PhoneCamera : MonoBehaviour {
+public class PhoneCamera : MonoBehaviour
+{
 
+    private int photoCount;
     private bool camAvailable;
     private WebCamTexture currentCam;
     private WebCamTexture frontCam;
@@ -14,8 +16,19 @@ public class PhoneCamera : MonoBehaviour {
     public RawImage background;
     public AspectRatioFitter fit;
 
+    void OnDisable()
+    {
+        if (camAvailable) // && currentCam.isPlaying)
+        {
+            //Debug.Log("Successfully disabled camera");
+            currentCam.Stop();
+        }
+    }
+
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
+        //Debug.Log("Enabled camera");
         WebCamDevice[] devices = WebCamTexture.devices;
         if (devices.Length == 0) //No camera available
         {
@@ -51,6 +64,16 @@ public class PhoneCamera : MonoBehaviour {
         background.texture = currentCam;
     }
 
+    public void StopCam()
+    {
+        if (camAvailable)
+        {
+            currentCam.Stop();
+        }
+    }
+
+    /* Switches between the front and back camera
+     */
     public void SwitchCam()
     {
         if (camAvailable && backCam && frontCam)
@@ -70,25 +93,38 @@ public class PhoneCamera : MonoBehaviour {
         }
     }
 
-    public IEnumerator TakePhoto ()
+    //Saves image to path directory under the current data path of the application.
+    private void SavePhoto(byte[] image, string path)
+    {
+        photoCount++;
+        string photoName = "Photo_" + photoCount + System.DateTime.Now.ToString("__yyyy-MM-dd_HH-mm-ss") + ".png";
+        File.WriteAllBytes(Application.dataPath + "/" + path + "/" + photoName, image);
+    }
+
+    //Takes photo and converts it to an image of bytes, then saves it to the input directory.
+    private IEnumerator TakePhoto(string path)
     {
         yield return new WaitForEndOfFrame();
         Texture2D photo = new Texture2D(currentCam.width, currentCam.height);
         photo.SetPixels(currentCam.GetPixels());
         photo.Apply();
-        byte[] bytes = photo.EncodeToPNG();
+        byte[] image = photo.EncodeToPNG();
         Destroy(photo);
-        //File.WriteAllBytes(Application.dataPath + "/" + photo.png, bytes);
+        SavePhoto(image, path);
+        //Debug.Log(Application.dataPath + "/Input/" + photoName);
     }
 
+    //function to use in trigger function from button
     public void UploadPhoto()
     {
-        TakePhoto();
+        StartCoroutine(TakePhoto("Input"));
+        //Debug.Log("Uploading Photo");
     }
 
     // Update is called once per frame
-    void Update () {
-		if (!camAvailable)
+    void Update()
+    {
+        if (!camAvailable)
         {
             //Add default redirect screen
             return;
@@ -102,5 +138,5 @@ public class PhoneCamera : MonoBehaviour {
 
         int orient = -currentCam.videoRotationAngle;
         background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
-	}
+    }
 }
