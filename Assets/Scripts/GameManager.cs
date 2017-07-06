@@ -25,7 +25,7 @@ public class GameManager : Singleton<GameManager> {
     private void Awake()
     {
         rng = new System.Random();
-        strikes = 3;
+        strikes = 1;
         activePool = new List<Card>();
         score = 0;
         UpdateScoreStrikes();
@@ -78,7 +78,6 @@ public class GameManager : Singleton<GameManager> {
         //Pause coroutine till card is selected
         while (pickEnabled) { yield return null; }
         //Finish the round
-        Debug.Log("Finish");
         StartCoroutine(FinishRound());
     }
     IEnumerator FlashCards()
@@ -170,6 +169,7 @@ public class GameManager : Singleton<GameManager> {
         if (!win)
         {
             strikes--;
+            UpdateScoreStrikes();
             myHeader.text = "Sorry that was the wrong Card";
             if (strikes > 0)
             {
@@ -178,17 +178,25 @@ public class GameManager : Singleton<GameManager> {
             }
             else
             {
-                //Insert end screen here
+                Canvas.Instance.headerDisplay.gameObject.SetActive(false);
+                HideScoreStrikes();
+                foreach(Transform x in Canvas.Instance.transform)
+                {
+                    if(x.tag == "GameOver")
+                    {
+                        x.gameObject.SetActive(true);
+                    }
+                }
             }
         }
         else
         {
             score++;
             myHeader.text = "Good job, that was correct!";
+            UpdateScoreStrikes();
             yield return new WaitForSeconds(1f);
             StartCoroutine(Round());
         }
-        UpdateScoreStrikes();
     }
     public void SelectCard(Card reference)
     {
