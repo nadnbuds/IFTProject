@@ -97,8 +97,8 @@ public class PhoneCamera : MonoBehaviour
     private void SavePhoto(byte[] image, string path)
     {
         photoCount++;
-        string photoName = "Photo_" + photoCount + System.DateTime.Now.ToString("__yyyy-MM-dd_HH-mm-ss") + ".png";
-        File.WriteAllBytes(Application.streamingAssetsPath + "/" + photoName, image);
+        string photoName = "IFTPhoto_" + photoCount + System.DateTime.Now.ToString("__yyyy-MM-dd_HH-mm-ss") + ".png";
+        File.WriteAllBytes(Application.persistentDataPath + "/" + photoName, image);
     }
 
     //Takes photo and converts it to an image of bytes, then saves it to the input directory.

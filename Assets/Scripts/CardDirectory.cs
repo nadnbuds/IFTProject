@@ -30,8 +30,8 @@ public class CardDirectory : Singleton<CardDirectory> {
 
     private void ReadDirectory()
     {
-        //Reads the directory "Input" and puts the file path in the injection
-        string path = Application.streamingAssetsPath;
+        //Reads the directory from android for pictures taken and puts the file path in the injection
+        string path = Application.persistentDataPath;
         Debug.Log(path);
         DirectoryInfo dInfo = new DirectoryInfo(path);
         //Filters for jpg only
@@ -41,20 +41,26 @@ public class CardDirectory : Singleton<CardDirectory> {
             Debug.Log("1");
             cardDatabase.Add(WrapObject(f));
         }
-        StreamReader fileReader = new StreamReader(path + "\\words.txt");
-        string line;
-        using (fileReader)
+        //Reads the directory "Resources" and puts the file path in the injection
+        /*
+        path = Application.dataPath + "/Resources";
+        Debug.Log(path);
+        dInfo = new DirectoryInfo(path);
+        //Filters for jpg only
+        fInfo = dInfo.GetFiles("*.png");
+        foreach (FileInfo f in fInfo)
         {
-            do
-            {
-                line = fileReader.ReadLine();
-                if (line != null)
-                {
-                   cardDatabase.Add(WrapObject(line));
-                }
-            }
-            while (line != null);
-            fileReader.Close();
+            Debug.Log("1");
+            cardDatabase.Add(WrapObject(f));
+        }
+        */
+        
+        TextAsset IFTWords = Resources.Load("words") as TextAsset;
+        string[] linesFromfile = IFTWords.text.Split("\n"[0]);
+        foreach (string word in linesFromfile)
+        {
+            Debug.Log(word);
+            cardDatabase.Add(WrapObject(word));
         }
     }
 
