@@ -25,7 +25,7 @@ public class Card : MonoBehaviour {
         if (inject.cardPicture != null)
         {
             Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(File.ReadAllBytes("./Assets/Input" + "\\" + inject.cardPicture.Name));
+            texture.LoadImage(File.ReadAllBytes(Application.streamingAssetsPath + "/" + inject.cardPicture.Name));
             myImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2());
         }
         myText.text = inject.cardWord;

@@ -31,12 +31,14 @@ public class CardDirectory : Singleton<CardDirectory> {
     private void ReadDirectory()
     {
         //Reads the directory "Input" and puts the file path in the injection
-        string path = "./Assets/Input";
+        string path = Application.streamingAssetsPath;
+        Debug.Log(path);
         DirectoryInfo dInfo = new DirectoryInfo(path);
         //Filters for jpg only
-        FileInfo[] fInfo = dInfo.GetFiles("*.jpg");
+        FileInfo[] fInfo = dInfo.GetFiles("*.png");
         foreach(FileInfo f in fInfo)
         {
+            Debug.Log("1");
             cardDatabase.Add(WrapObject(f));
         }
         StreamReader fileReader = new StreamReader(path + "\\words.txt");

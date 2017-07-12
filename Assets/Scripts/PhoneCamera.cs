@@ -98,7 +98,7 @@ public class PhoneCamera : MonoBehaviour
     {
         photoCount++;
         string photoName = "Photo_" + photoCount + System.DateTime.Now.ToString("__yyyy-MM-dd_HH-mm-ss") + ".png";
-        File.WriteAllBytes(Application.dataPath + "/" + path + "/" + photoName, image);
+        File.WriteAllBytes(Application.streamingAssetsPath + "/" + photoName, image);
     }
 
     //Takes photo and converts it to an image of bytes, then saves it to the input directory.
