@@ -25,7 +25,7 @@ public class GameManager : Singleton<GameManager> {
     private void Awake()
     {
         rng = new System.Random();
-        strikes = 1;
+        strikes = 3;
         activePool = new List<Card>();
         score = 0;
         UpdateScoreStrikes();
@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager> {
         scoreDisplay = GameObject.Find("ScoreText");
         strikeDisplay = GameObject.Find("StrikesText");
         scoreDisplay.GetComponent<Text>().text = "Score: " + score;
-        strikeDisplay.GetComponent<Text>().text = "Strikes: " + strikes;
+        strikeDisplay.GetComponent<Text>().text = "Lives: " + strikes;
     }
     private void DisplayScoreStrikes() //Sets the Score/Strike UI Elements to active and visible
     {

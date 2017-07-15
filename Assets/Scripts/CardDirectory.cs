@@ -60,6 +60,7 @@ public class CardDirectory : Singleton<CardDirectory> {
         foreach (string word in linesFromfile)
         {
             Debug.Log(word);
+            devWordList.Add(word);
             cardDatabase.Add(WrapObject(word));
         }
     }
