@@ -28,8 +28,6 @@ public class EditWord : MonoBehaviour
             {
                 inputField.GetComponent<InputField>().text += word + "\n";
             }
-
-
         }
         else
         {
@@ -40,11 +38,17 @@ public class EditWord : MonoBehaviour
             {
                 cardDirectory.GetComponent<CardDirectory>().devWordList.Add(word);
             }
-            
+            WriteToTxt(inputField.GetComponent<InputField>().text);
             inputField.SetActive(false);
-            
         }
+
         
+    }
+    void WriteToTxt(string newList )
+    {
+        string fileName = "WordsList" + System.DateTime.Now.ToString("__yyyy-MM-dd_HH-mm-ss") + ".txt";
+        //File.WriteAllBytes(Application.persistentDataPath + "/" + photoName, image);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/" + fileName, newList);
     }
 	void Update () {
 		
