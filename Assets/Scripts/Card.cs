@@ -14,6 +14,12 @@ public class Card : MonoBehaviour {
         myText = this.gameObject.GetComponentInChildren<Text>();
         myImage = this.gameObject.GetComponent<Image>();
     }
+
+    public void Adjust()
+    {
+        this.transform.localScale = Vector3.one;
+    }
+
     public void CheckSameCard()
     {
         GameManager.Instance.SelectCard(this);

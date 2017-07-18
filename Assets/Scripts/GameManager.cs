@@ -87,6 +87,7 @@ public class GameManager : Singleton<GameManager> {
         foreach(Card x in activePool)
         {
             x.transform.parent = cardHolder;
+            x.Adjust();
             x.gameObject.SetActive(true);
             yield return new WaitForSeconds(timeToDisplay);
             x.transform.parent = reset;
@@ -148,6 +149,7 @@ public class GameManager : Singleton<GameManager> {
         foreach(Card x in activePool)
         {
             x.transform.parent = display;
+            x.Adjust();
             x.gameObject.SetActive(true);
         }
     }
