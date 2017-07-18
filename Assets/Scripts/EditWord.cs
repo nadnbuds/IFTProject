@@ -46,7 +46,7 @@ public class EditWord : MonoBehaviour
     }
     void WriteToTxt(string newList )
     {
-        string fileName = "WordsList" + System.DateTime.Now.ToString("__yyyy-MM-dd_HH-mm-ss") + ".txt";
+        string fileName = "WordsList" + ".txt";
         //File.WriteAllBytes(Application.persistentDataPath + "/" + photoName, image);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/" + fileName, newList);
     }
