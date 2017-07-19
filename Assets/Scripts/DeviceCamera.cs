@@ -107,7 +107,7 @@ public class DeviceCamera : MonoBehaviour
     private void SavePhoto(byte[] image)
     {
         string photoName = "Photo" + DateTime.Now.ToString("__yyyy-MM-dd__HH-mm-ss.fff_tt") + ".png";
-        File.WriteAllBytes(Application.dataPath + "/" + photoDirectory + "/" + photoName, image);
+        File.WriteAllBytes(Application.persistentDataPath + "/" + photoDirectory + "/" + photoName, image);
         Debug.Log(Application.persistentDataPath);
         Debug.Log("Photo saved");
     }
@@ -131,7 +131,7 @@ public class DeviceCamera : MonoBehaviour
 
     // Trigger function to take and save a photo
     // SavePhotoDirectory is the directory within Application.datapath to save the photo
-    public void TakePhoto(string SavePhotoDirectory)
+    public void TakePhoto()
     {
         // DeviceOrientation temp = Input.deviceOrientation;
         if (currentCam)
