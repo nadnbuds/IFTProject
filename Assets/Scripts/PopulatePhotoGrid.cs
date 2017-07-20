@@ -18,11 +18,12 @@ public struct myImages
 public class PopulatePhotoGrid : MonoBehaviour {
 	
 
-	List<myImages> imageList;
+	List<FileInfo> imageList;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+        imageList = new List<FileInfo>();
+        ReadDirectory();
 		
 	}
 	
@@ -35,38 +36,27 @@ public class PopulatePhotoGrid : MonoBehaviour {
 	{
 		//Reads the directory from android for pictures taken and puts the file path in the injection
 		string path = Application.persistentDataPath;
-		Debug.Log (path);
 		DirectoryInfo dInfo = new DirectoryInfo (path);
 		//Filters for png only
 		FileInfo[] fInfo = dInfo.GetFiles ("*.png");
 		foreach (FileInfo f in fInfo) {
 			Debug.Log ("1");
-			Texture2D texture = new Texture2D (2, 2);
-			texture.LoadImage (File.ReadAllBytes (Application.persistentDataPath + "/" + f.Name));
-
-			Sprite tempSprite = Sprite.Create (texture, new Rect (0, 0, texture.width, texture.height), new Vector2 ());
 
 			// calls "constructor" to initialize file directory and 
-			imageList.Add(WrapObject(f, tempSprite));
+			imageList.Add(f);
 		}
+        int i = 0;
+        foreach (Transform child in transform)
+        {
+            if (i < imageList.Count)
+            {
+                child.GetComponent<initializeChildPhotos>().injectPhotos(imageList[i]);
+                Debug.Log(imageList[i].Name);
+            }
+            i++;
+        }
 
-	}
-
-	private myImages WrapObject(FileInfo f, Sprite s)
-	{
-		return new myImages(f, s);
-	}
-
-	private void populateChildren()
-	{
-		int i = 0;
-		foreach (Transform child in transform) {
-			if (i < imageList.Count) {
-				child.GetComponent<initializeChildPhotos> ().injectPhotos (imageList[i]);
-				i++;
-			}
-		}
-	}
+    }
 
 
 

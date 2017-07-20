@@ -2,26 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.IO;
 
-public class initializeChildPhotos : MonoBehaviour
-{
+public class initializeChildPhotos : MonoBehaviour {
+    Sprite Default;
 	FileInfo myFileInfo;
 	Image myChildImage;
 
-	public initializeChildPhotos ()
-	{
-		
-	}
+    private void Awake()
+    {
+        myChildImage = this.gameObject.GetComponent<Image>();
+    }
 
-	public void injectPhotos(myImages tempImageStruct)
+	public void injectPhotos(FileInfo f)
 	{
-		myFileInfo = tempImageStruct.myFileInfo;
-		myChildImage.sprite = tempImageStruct.mySprite;
-	}
+        if (myChildImage != null)
+        {
+            Debug.Log(f.Name);
+            myFileInfo = f;
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(File.ReadAllBytes(Application.persistentDataPath + "/" + f.Name));
+            Default = myChildImage.sprite;
+            myChildImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2());
+        }
+    }
 
-	public void deletThis()
+	public void deleteThis()
 	{
+        myChildImage.sprite = Default;
 		File.Delete (Application.persistentDataPath + "/" + myFileInfo.Name);
 	}
 }
