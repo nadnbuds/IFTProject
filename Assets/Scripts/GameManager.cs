@@ -82,7 +82,7 @@ public class GameManager : Singleton<GameManager> {
     }
     IEnumerator FlashCards()
     {
-        Transform cardHolder = Canvas.Instance.cardHolder.transform;
+        Transform cardHolder = CanvasScript.Instance.cardHolder.transform;
         Transform reset = ObjectPooler.Instance.parentPool;
         foreach(Card x in activePool)
         {
@@ -97,7 +97,7 @@ public class GameManager : Singleton<GameManager> {
     //Counts down till the begining of the round
     IEnumerator CountDown()
     {
-        Text myHeader = Canvas.Instance.headerDisplay;
+        Text myHeader = CanvasScript.Instance.headerDisplay;
         myHeader.gameObject.SetActive(true);
         string Prompt = "Round begins in... ";
         myHeader.text = Prompt + "3";
@@ -125,7 +125,7 @@ public class GameManager : Singleton<GameManager> {
     }
     void DisplayHeader(int target)
     {
-        Text myHeader = Canvas.Instance.headerDisplay;
+        Text myHeader = CanvasScript.Instance.headerDisplay;
         myHeader.gameObject.SetActive(true);
         switch (target)
         {
@@ -145,7 +145,7 @@ public class GameManager : Singleton<GameManager> {
     }
     void DisplayCards()
     {
-        Transform display = Canvas.Instance.cardDisplay.transform;
+        Transform display = CanvasScript.Instance.cardDisplay.transform;
         foreach(Card x in activePool)
         {
             x.transform.parent = display;
@@ -164,7 +164,7 @@ public class GameManager : Singleton<GameManager> {
     }
     IEnumerator FinishRound()
     {
-        Text myHeader = Canvas.Instance.headerDisplay;
+        Text myHeader = CanvasScript.Instance.headerDisplay;
         RemoveCards();
         activePool.Clear();
         pickEnabled = false;
@@ -180,9 +180,9 @@ public class GameManager : Singleton<GameManager> {
             }
             else
             {
-                Canvas.Instance.headerDisplay.gameObject.SetActive(false);
+                CanvasScript.Instance.headerDisplay.gameObject.SetActive(false);
                 HideScoreStrikes();
-                foreach(Transform x in Canvas.Instance.transform)
+                foreach(Transform x in CanvasScript.Instance.transform)
                 {
                     if(x.tag == "GameOver")
                     {

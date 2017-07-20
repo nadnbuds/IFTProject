@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Canvas : Singleton<Canvas> {
+public class CanvasScript : Singleton<CanvasScript> {
 
     public Text headerDisplay;
     public GridLayoutGroup cardDisplay;
