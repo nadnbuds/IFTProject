@@ -32,17 +32,6 @@ public class Card : MonoBehaviour {
         {
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(File.ReadAllBytes(Application.persistentDataPath + "/" + inject.cardPicture.Name));
-
-            /*
-            if (inject.cardPicture.Name.Contains("IFTPhoto"))
-            {
-                texture.LoadImage(File.ReadAllBytes(Application.persistentDataPath + "/" + inject.cardPicture.Name));
-            }
-            else
-            {
-                texture.LoadImage(File.ReadAllBytes(Application.dataPath + "/Resources/" + inject.cardPicture.Name));
-            }
-            */
             myImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2());
         }
         myText.text = inject.cardWord;

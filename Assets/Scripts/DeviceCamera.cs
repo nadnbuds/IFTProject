@@ -107,7 +107,7 @@ public class DeviceCamera : MonoBehaviour
     private void SavePhoto(byte[] image)
     {
         string photoName = "Photo" + DateTime.Now.ToString("__yyyy-MM-dd__HH-mm-ss.fff_tt") + ".png";
-        File.WriteAllBytes(Application.persistentDataPath + "/" + photoDirectory + "/" + photoName, image);
+        File.WriteAllBytes(Application.persistentDataPath + "/" + photoName, image);
         Debug.Log(Application.persistentDataPath);
         Debug.Log("Photo saved");
     }

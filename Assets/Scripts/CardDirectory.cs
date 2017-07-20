@@ -41,19 +41,6 @@ public class CardDirectory : Singleton<CardDirectory> {
             Debug.Log("1");
             cardDatabase.Add(WrapObject(f));
         }
-        //Reads the directory "Resources" and puts the file path in the injection
-        /*
-        path = Application.dataPath + "/Resources";
-        Debug.Log(path);
-        dInfo = new DirectoryInfo(path);
-        //Filters for jpg only
-        fInfo = dInfo.GetFiles("*.png");
-        foreach (FileInfo f in fInfo)
-        {
-            Debug.Log("1");
-            cardDatabase.Add(WrapObject(f));
-        }
-        */
         
         TextAsset IFTWords = Resources.Load("words") as TextAsset;
         string[] linesFromfile = IFTWords.text.Split("\n"[0]);
