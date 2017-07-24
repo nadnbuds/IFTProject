@@ -14,9 +14,9 @@ public class DeviceCamera : MonoBehaviour
     private Rect photoDimensions;
     [SerializeField] private RenderTexture photoRenderTexture;
     [SerializeField] private string photoDirectory; // Dir to save photos
-    private RawImage cameraFeedImage; // Where the camera feed is displayed
-    private RectTransform parentAxes; // Used to reference mirror axis
-    private AspectRatioFitter cameraFeedFit; // Current aspect ratio used
+    [SerializeField] private RawImage cameraFeedImage; // Where the camera feed is displayed
+    [SerializeField] private RectTransform parentAxes; // Used to reference mirror axis
+    [SerializeField] private AspectRatioFitter cameraFeedFit; // Current aspect ratio used
 
     // Stores rotation vector needed to properly orientate video feed
     Vector3 rotation = new Vector3(0f, 0f, 0f);
@@ -36,9 +36,6 @@ public class DeviceCamera : MonoBehaviour
     // Initializes backCam, frontCam, and currentCam
     private void Awake()
     {
-        cameraFeedImage = GetComponent<RawImage>();
-        parentAxes = transform.parent.GetComponent<RectTransform>();
-        cameraFeedFit = GetComponent<AspectRatioFitter>();
 
         WebCamDevice[] devices = WebCamTexture.devices;
 
@@ -107,7 +104,7 @@ public class DeviceCamera : MonoBehaviour
     private void SavePhoto(byte[] image)
     {
         string photoName = "Photo" + DateTime.Now.ToString("__yyyy-MM-dd__HH-mm-ss.fff_tt") + ".png";
-        File.WriteAllBytes(Application.persistentDataPath + "/" + photoName, image);
+        File.WriteAllBytes(Application.persistentDataPath + "/" + photoDirectory + "/" + photoName, image);
         Debug.Log(Application.persistentDataPath);
         Debug.Log("Photo saved");
     }
@@ -131,7 +128,7 @@ public class DeviceCamera : MonoBehaviour
 
     // Trigger function to take and save a photo
     // SavePhotoDirectory is the directory within Application.datapath to save the photo
-    public void TakePhoto()
+    public void TakePhoto(string SavePhotoDirectory)
     {
         // DeviceOrientation temp = Input.deviceOrientation;
         if (currentCam)

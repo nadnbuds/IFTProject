@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 
 public class GameManager : Singleton<GameManager> {
+    /*
     [SerializeField]
     bool pickEnabled = false, roundPause = false, win = false;
     [SerializeField]
@@ -36,7 +37,7 @@ public class GameManager : Singleton<GameManager> {
         scoreDisplay = GameObject.Find("ScoreText");
         strikeDisplay = GameObject.Find("StrikesText");
         scoreDisplay.GetComponent<Text>().text = "Score: " + score;
-        strikeDisplay.GetComponent<Text>().text = "Lives: " + strikes;
+        strikeDisplay.GetComponent<Text>().text = "Strikes: " + strikes;
     }
     private void DisplayScoreStrikes() //Sets the Score/Strike UI Elements to active and visible
     {
@@ -80,26 +81,26 @@ public class GameManager : Singleton<GameManager> {
         //Finish the round
         StartCoroutine(FinishRound());
     }
+
     IEnumerator FlashCards()
     {
-        Transform cardHolder = CanvasScript.Instance.cardHolder.transform;
+        Transform cardHolder = Canvas.Instance.cardHolder.transform;
         Transform reset = ObjectPooler.Instance.parentPool;
         foreach(Card x in activePool)
         {
-            x.transform.parent = cardHolder;
-            x.Adjust();
+            x.transform.SetParent(cardHolder);
             x.gameObject.SetActive(true);
             yield return new WaitForSeconds(timeToDisplay);
-            x.transform.parent = reset;
+            x.transform.SetParent(reset);
         }
         roundPause = false;
     }
     //Counts down till the begining of the round
     IEnumerator CountDown()
     {
-        Text myHeader = CanvasScript.Instance.headerDisplay;
+        Text myHeader = Canvas.Instance.headerDisplay;
         myHeader.gameObject.SetActive(true);
-        string Prompt = "Round begins in... ";
+        string Prompt = "Round begins in ... ";
         myHeader.text = Prompt + "3";
         yield return new WaitForSeconds(1f);
         myHeader.text = Prompt + "2";
@@ -125,7 +126,7 @@ public class GameManager : Singleton<GameManager> {
     }
     void DisplayHeader(int target)
     {
-        Text myHeader = CanvasScript.Instance.headerDisplay;
+        Text myHeader = Canvas.Instance.headerDisplay;
         myHeader.gameObject.SetActive(true);
         switch (target)
         {
@@ -145,11 +146,10 @@ public class GameManager : Singleton<GameManager> {
     }
     void DisplayCards()
     {
-        Transform display = CanvasScript.Instance.cardDisplay.transform;
+        Transform display = Canvas.Instance.cardDisplay.transform;
         foreach(Card x in activePool)
         {
-            x.transform.parent = display;
-            x.Adjust();
+            x.transform.SetParent(display);
             x.gameObject.SetActive(true);
         }
     }
@@ -158,13 +158,13 @@ public class GameManager : Singleton<GameManager> {
         Transform display = ObjectPooler.Instance.parentPool;
         foreach (Card x in activePool)
         {
-            x.transform.parent = display;
+            x.transform.SetParent(display);
             x.gameObject.SetActive(false);
         }
     }
     IEnumerator FinishRound()
     {
-        Text myHeader = CanvasScript.Instance.headerDisplay;
+        Text myHeader = Canvas.Instance.headerDisplay;
         RemoveCards();
         activePool.Clear();
         pickEnabled = false;
@@ -180,9 +180,9 @@ public class GameManager : Singleton<GameManager> {
             }
             else
             {
-                CanvasScript.Instance.headerDisplay.gameObject.SetActive(false);
+                Canvas.Instance.headerDisplay.gameObject.SetActive(false);
                 HideScoreStrikes();
-                foreach(Transform x in CanvasScript.Instance.transform)
+                foreach(Transform x in Canvas.Instance.transform)
                 {
                     if(x.tag == "GameOver")
                     {
@@ -200,15 +200,18 @@ public class GameManager : Singleton<GameManager> {
             StartCoroutine(Round());
         }
     }
+    */
     public void SelectCard(Card reference)
     {
+        /*
         win = false;
         if(reference == targetCard)
         {
             win = true;
         }
-        pickEnabled = false;
+        pickEnabled = false; */
     }
+    /*
     public void Shuffle<T>(List<T> list)
     {
         int n = list.Count;
@@ -220,5 +223,5 @@ public class GameManager : Singleton<GameManager> {
             list[x] = list[n];
             list[n] = temp;
         }
-    }
+    } */
 }

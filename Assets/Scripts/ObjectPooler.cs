@@ -5,21 +5,16 @@ using UnityEngine.UI;
 using System;
 
 public class ObjectPooler : Singleton<ObjectPooler> {
-    //Parent Object
-    public Transform parentPool;
-    //Object base to clone
-    public Card myObj;
-    //Pool with IFT Only
-    public List<Card> WordPool;
-    //list of cards with images
-    public List<Card> ImagePool;
-
+    /*
+    public Card cardToClone; //Card to clone
+    public List<Card> WordPool; //List of cards with IFT words only
+    public List<Card> ImagePool; //List of cards with images
+    */
     private void Awake()
     {
-        parentPool = this.gameObject.transform;
-        CreateObjects();
+        //CreateObjects();
     }
-
+    /*
     public void CreateObjects()
     {
         foreach (CardContainer x in CardDirectory.Instance.cardDatabase)
@@ -72,4 +67,5 @@ public class ObjectPooler : Singleton<ObjectPooler> {
         GameManager.Instance.Shuffle(WordPool);
         GameManager.Instance.Shuffle(ImagePool);
     }
+    */
 }

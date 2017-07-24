@@ -1,84 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public struct myImages
+public class PopulatePhotoGrid : MonoBehaviour
 {
-	public FileInfo myFileInfo;
-	public Sprite mySprite;
-	public myImages(FileInfo f, Sprite s)
-	{
-		myFileInfo = f;
-		mySprite = s;
-	}
-};
+    private List<FileInfo> imageFileList;
+    private WordAndImageFile dataFile;
+    [SerializeField] private GameObject childImageToClone;
 
-public class PopulatePhotoGrid : MonoBehaviour {
-	
+    // Use this for initialization
+    private void Start()
+    {
+        dataFile = new WordAndImageFile();
+        imageFileList = new List<FileInfo>();
+        FileInfo[] imageFiles = dataFile.GetImageFiles();
 
-	List<FileInfo> imageList;
-
-	// Use this for initialization
-	void Awake () {
-        imageList = new List<FileInfo>();
-        ReadDirectory();
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	private void ReadDirectory()
-	{
-		//Reads the directory from android for pictures taken and puts the file path in the injection
-		string path = Application.persistentDataPath;
-		DirectoryInfo dInfo = new DirectoryInfo (path);
-		//Filters for png only
-		FileInfo[] fInfo = dInfo.GetFiles ("*.png");
-		foreach (FileInfo f in fInfo) {
-			Debug.Log ("1");
-
-			// calls "constructor" to initialize file directory and 
-			imageList.Add(f);
-		}
-        int i = 0;
-        foreach (Transform child in transform)
+        foreach (FileInfo fInfo in imageFiles)
         {
-            if (i < imageList.Count)
-            {
-                child.GetComponent<initializeChildPhotos>().injectPhotos(imageList[i]);
-                Debug.Log(imageList[i].Name);
-            }
-            i++;
+            imageFileList.Add(fInfo);
+            GameObject childPhoto = Instantiate(childImageToClone);
+            childPhoto.transform.SetParent(transform);
+            childPhoto.GetComponent<Image>().sprite = dataFile.GetImageFromFile(fInfo);
         }
-
     }
 
+    public void AddChild(FileInfo childFileInfo)
+    {
+        imageFileList.Add(childFileInfo);
+        GameObject childPhoto = Instantiate(childImageToClone);
+        childPhoto.transform.SetParent(transform);
+        childPhoto.GetComponent<Image>().sprite = dataFile.GetImageFromFile(childFileInfo);
+    }
 
-
-//	public void Inject(CardContainer inject)
-//	{
-//		//Loads the image from file directory
-//		if (inject.cardPicture != null)
-//		{
-//			Texture2D texture = new Texture2D(2, 2);
-//			texture.LoadImage(File.ReadAllBytes(Application.persistentDataPath + "/" + inject.cardPicture.Name));
-//
-//			/*
-//            if (inject.cardPicture.Name.Contains("IFTPhoto"))
-//            {
-//                texture.LoadImage(File.ReadAllBytes(Application.persistentDataPath + "/" + inject.cardPicture.Name));
-//            }
-//            else
-//            {
-//                texture.LoadImage(File.ReadAllBytes(Application.dataPath + "/Resources/" + inject.cardPicture.Name));
-//            }
-//            */
-//			myImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2());
-//		}
-//	}
+    public void DeleteChildByIndex(int index)
+    {
+        imageFileList[index].Delete();
+        imageFileList.RemoveAt(index);
+        Destroy(transform.GetChild(index).gameObject);
+    }
 }

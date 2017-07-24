@@ -28,27 +28,37 @@ public class CardDirectory : Singleton<CardDirectory> {
         //DevPopulate();
     }
 
+    private void WriteWords()
+    {
+
+    }
+
     private void ReadDirectory()
     {
-        //Reads the directory from android for pictures taken and puts the file path in the injection
-        string path = Application.persistentDataPath;
-        Debug.Log(path);
+        //Reads the directory "Input" and puts the file path in the injection
+        string path = "./Assets/Input";
+     
         DirectoryInfo dInfo = new DirectoryInfo(path);
         //Filters for jpg only
         FileInfo[] fInfo = dInfo.GetFiles("*.png");
         foreach(FileInfo f in fInfo)
         {
-            Debug.Log("1");
             cardDatabase.Add(WrapObject(f));
         }
-        
-        TextAsset IFTWords = Resources.Load("words") as TextAsset;
-        string[] linesFromfile = IFTWords.text.Split("\n"[0]);
-        foreach (string word in linesFromfile)
+        StreamReader fileReader = new StreamReader(path + "\\words.txt");
+        string line;
+        using (fileReader)
         {
-            Debug.Log(word);
-            devWordList.Add(word);
-            cardDatabase.Add(WrapObject(word));
+            do
+            {
+                line = fileReader.ReadLine();
+                if (line != null)
+                {
+                   cardDatabase.Add(WrapObject(line));
+                }
+            }
+            while (line != null);
+            fileReader.Close();
         }
     }
 
