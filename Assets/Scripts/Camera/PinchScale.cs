@@ -61,7 +61,6 @@ public class PinchScale : MonoBehaviour
             zoomScale.y = GetBoundedScale(zoomScale.y);
 
             transform.localScale = zoomScale;
-            Debug.Log("Zoom: " + transform.localScale);
         }
     }
 }

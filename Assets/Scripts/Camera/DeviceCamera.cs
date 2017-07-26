@@ -9,14 +9,14 @@ public class DeviceCamera : MonoBehaviour
 {
     // Camera that takes the photo. If null, device camera functions the same but throws an error if taking photos
     [SerializeField] private CameraShot photoCamera;
-    [SerializeField] private string photoDirectory;
+    //[SerializeField] private string photoDirectory;
     
     private WebCamTexture currentCamera; // Current device camera in use
     private WebCamTexture frontCamera; // Front camera
     private WebCamTexture backCamera; // Back camera
     
     private RawImage cameraFeedImage; // Where the camera feed is displayed
-    private RectTransform parentAxes; // Used to reference correct axes orientation due to cameraFeedImage rotation
+    private Transform parentAxes; // Used to reference correct axes orientation due to cameraFeedImage rotation
     private AspectRatioFitter cameraFeedFit; // Current aspect ratio used
 
     // Stores rotation vector needed to properly orientate video feed
@@ -103,7 +103,7 @@ public class DeviceCamera : MonoBehaviour
     // SavePhotoDirectory is the directory within Application.datapath to save the photo
     public void CapturePhoto()
     {
-        photoCamera.CaptureCameraShot(Path.Combine(Application.persistentDataPath, photoDirectory));
+        photoCamera.CaptureCameraShot(Application.persistentDataPath);
     }
 
     // Update is called once per frame

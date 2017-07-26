@@ -14,6 +14,12 @@ public class Card : MonoBehaviour {
         myText = this.gameObject.GetComponentInChildren<Text>();
         myImage = this.gameObject.GetComponent<Image>();
     }
+
+    public void Adjust()
+    {
+        this.transform.localScale = Vector3.one;
+    }
+
     public void CheckSameCard()
     {
         GameManager.Instance.SelectCard(this);
@@ -25,7 +31,7 @@ public class Card : MonoBehaviour {
         if (inject.cardPicture != null)
         {
             Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(File.ReadAllBytes("./Assets/Input" + "\\" + inject.cardPicture.Name));
+            texture.LoadImage(File.ReadAllBytes(Application.persistentDataPath + "/" + inject.cardPicture.Name));
             myImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2());
         }
         myText.text = inject.cardWord;
