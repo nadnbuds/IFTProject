@@ -5,29 +5,25 @@ using UnityEngine.UI;
 using System;
 
 public class ObjectPooler : Singleton<ObjectPooler> {
-    //Parent Object
+    
+    public Card cardToClone; //Card to clone
     public Transform parentPool;
-    //Object base to clone
-    public Card myObj;
-    //Pool with IFT Only
-    public List<Card> WordPool;
-    //list of cards with images
-    public List<Card> ImagePool;
-
+    public List<Card> WordPool; //List of cards with IFT words only
+    public List<Card> ImagePool; //List of cards with images
+    
     private void Awake()
     {
-        parentPool = this.gameObject.transform;
         CreateObjects();
     }
-
+    
     public void CreateObjects()
     {
         foreach (CardContainer x in CardDirectory.Instance.cardDatabase)
         {
             //Injects the container to the card and initializes it
-            Card temp = GameObject.Instantiate<Card>(myObj) as Card;
+            Card temp = GameObject.Instantiate<Card>(cardToClone) as Card;
             temp.Inject(x);
-            temp.transform.parent = parentPool;
+            temp.transform.SetParent(parentPool);
             temp.gameObject.SetActive(false);
             //Check if the card is an imagecard or word card using x
             if (x.cardWord == null)
@@ -40,6 +36,7 @@ public class ObjectPooler : Singleton<ObjectPooler> {
             }
         }
     }
+
     //Get card from WordPool
     public Card GetWordCard()
     {
@@ -53,6 +50,7 @@ public class ObjectPooler : Singleton<ObjectPooler> {
         }
         return null;
     }
+
     //Get card from ImagePool
     public Card GetImageCard()
     {

@@ -12,7 +12,6 @@ public class GameManager : Singleton<GameManager> {
     int strikes, score;
     [SerializeField]
     float timeToDisplay;
-    List<Rules> rules;
     [SerializeField]
     Card targetCard;
     [SerializeField]
@@ -22,6 +21,12 @@ public class GameManager : Singleton<GameManager> {
     GameObject scoreDisplay;
     [SerializeField]
     GameObject strikeDisplay;
+
+    public int GetScore()
+    {
+        return score;
+    }
+
     private void Awake()
     {
         rng = new System.Random();
@@ -31,6 +36,7 @@ public class GameManager : Singleton<GameManager> {
         UpdateScoreStrikes();
         StartCoroutine(Round());
     }
+
     private void UpdateScoreStrikes() //Updates the Score/Strikes Number for Gamemanager
     {
         scoreDisplay = GameObject.Find("ScoreText");
@@ -38,6 +44,7 @@ public class GameManager : Singleton<GameManager> {
         scoreDisplay.GetComponent<Text>().text = "Score: " + score;
         strikeDisplay.GetComponent<Text>().text = "Lives: " + strikes;
     }
+
     private void DisplayScoreStrikes() //Sets the Score/Strike UI Elements to active and visible
     {
         scoreDisplay.SetActive(true);
@@ -86,11 +93,11 @@ public class GameManager : Singleton<GameManager> {
         Transform reset = ObjectPooler.Instance.parentPool;
         foreach(Card x in activePool)
         {
-            x.transform.parent = cardHolder;
+            x.transform.SetParent(cardHolder);
             x.Adjust();
             x.gameObject.SetActive(true);
             yield return new WaitForSeconds(timeToDisplay);
-            x.transform.parent = reset;
+            x.transform.SetParent(reset);
         }
         roundPause = false;
     }
@@ -99,7 +106,7 @@ public class GameManager : Singleton<GameManager> {
     {
         Text myHeader = CanvasScript.Instance.headerDisplay;
         myHeader.gameObject.SetActive(true);
-        string Prompt = "Round begins in... ";
+        string Prompt = "Round begins in ... ";
         myHeader.text = Prompt + "3";
         yield return new WaitForSeconds(1f);
         myHeader.text = Prompt + "2";
@@ -148,7 +155,7 @@ public class GameManager : Singleton<GameManager> {
         Transform display = CanvasScript.Instance.cardDisplay.transform;
         foreach(Card x in activePool)
         {
-            x.transform.parent = display;
+            x.transform.SetParent(display);
             x.Adjust();
             x.gameObject.SetActive(true);
         }
@@ -158,7 +165,7 @@ public class GameManager : Singleton<GameManager> {
         Transform display = ObjectPooler.Instance.parentPool;
         foreach (Card x in activePool)
         {
-            x.transform.parent = display;
+            x.transform.SetParent(display);
             x.gameObject.SetActive(false);
         }
     }
