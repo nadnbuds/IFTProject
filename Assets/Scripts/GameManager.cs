@@ -8,8 +8,8 @@ public class GameManager : Singleton<GameManager> {
     [SerializeField]
     bool pickEnabled = false, roundPause = false, win = false;
     [SerializeField]
-    int upperboundChoice, lowerboundChoice, numberOutOf, numOfImages;
-    int strikes, score;
+    int timeToPick, numberOutOf, numOfImages;
+    int strikes, score, brick;
     [SerializeField]
     float timeToDisplay;
     [SerializeField]
@@ -33,6 +33,7 @@ public class GameManager : Singleton<GameManager> {
         strikes = 3;
         activePool = new List<Card>();
         score = 0;
+        brick = 1;
         UpdateScoreStrikes();
         StartCoroutine(Round());
     }
@@ -59,9 +60,10 @@ public class GameManager : Singleton<GameManager> {
     {
         //Display the Round Countdown
         roundPause = true;
+        win = false;
         StartCoroutine(CountDown());
         //Get the random set of Cards for the round
-        int wordPullNumber = rng.Next(upperboundChoice, lowerboundChoice + 1);
+        int wordPullNumber = (brick / 5) + 3;
         //Add image bounds here if needed
         int imagePullNumber = numOfImages;
         AddCards(wordPullNumber,imagePullNumber);
@@ -82,6 +84,7 @@ public class GameManager : Singleton<GameManager> {
         DisplayCards();
         DisplayHeader(target + 1);
         pickEnabled = true;
+        StartCoroutine(PickTimer());
         //Pause coroutine till card is selected
         while (pickEnabled) { yield return null; }
         //Finish the round
@@ -137,23 +140,47 @@ public class GameManager : Singleton<GameManager> {
         switch (target)
         {
             case 1:
-                myHeader.text = "Select the 1st card displayed";
+                myHeader.text = "Select the 1st card displayed in:";
                 break;
             case 2:
-                myHeader.text = "Select the 2nd card displayed";
+                myHeader.text = "Select the 2nd card displayed in:";
                 break;
             case 3:
-                myHeader.text = "Select the 3rd card displayed";
+                myHeader.text = "Select the 3rd card displayed in:";
                 break;
             default:
-                myHeader.text = "Select the " + target + "th card displayed";
+                myHeader.text = "Select the " + target + "th card displayed in:";
                 break;
         }
     }
+
+    IEnumerator PickTimer()
+    {
+        Text myHeader = CanvasScript.Instance.headerDisplay;
+        string baseText = myHeader.text;
+        int timer = timeToPick;
+        while(timer > 0)
+        {
+            myHeader.text = baseText + "\n" + timer;
+            yield return new WaitForSeconds(1);
+            timer--;
+        }
+        pickEnabled = false;
+
+    }
+
     void DisplayCards()
     {
+        List<Card> displayCards = new List<Card>();
         Transform display = CanvasScript.Instance.cardDisplay.transform;
-        foreach(Card x in activePool)
+        displayCards.Add(targetCard);
+        activePool.Remove(targetCard);
+        Shuffle<Card>(activePool);
+        for(int x = 0; x < 5; x++)
+        {
+            displayCards.Add(activePool[x]);
+        }
+        foreach(Card x in display)
         {
             x.transform.SetParent(display);
             x.Adjust();
