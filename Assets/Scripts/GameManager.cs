@@ -159,9 +159,9 @@ public class GameManager : Singleton<GameManager> {
         Text myHeader = CanvasScript.Instance.headerDisplay;
         string baseText = myHeader.text;
         int timer = timeToPick;
-        while(timer > 0)
+        while (timer > 0 && pickEnabled == true)
         {
-            myHeader.text = baseText + "\n" + timer;
+            myHeader.text = baseText + " " + timer;
             yield return new WaitForSeconds(1);
             timer--;
         }
@@ -180,7 +180,8 @@ public class GameManager : Singleton<GameManager> {
         {
             displayCards.Add(activePool[x]);
         }
-        foreach(Card x in display)
+        activePool.Add(targetCard);
+        foreach(Card x in displayCards)
         {
             x.transform.SetParent(display);
             x.Adjust();

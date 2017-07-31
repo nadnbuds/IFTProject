@@ -7,7 +7,7 @@ public class LoadSceneOnClick : MonoBehaviour
 {
 
     public Texture2D fadeOutTexture;
-    public float fadeSpeed = 0.8f;
+    public float fadeSpeed = 0.1f;
 
     private int drawDepth = -1000;
     private float alpha = 1.0f;
