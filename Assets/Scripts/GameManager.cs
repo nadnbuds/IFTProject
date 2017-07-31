@@ -203,6 +203,7 @@ public class GameManager : Singleton<GameManager> {
         RemoveCards();
         activePool.Clear();
         pickEnabled = false;
+        brick++;
         if (!win)
         {
             strikes--;
