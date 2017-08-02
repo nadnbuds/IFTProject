@@ -21,7 +21,12 @@ public class GameManager : Singleton<GameManager> {
     GameObject scoreDisplay;
     [SerializeField]
     GameObject strikeDisplay;
-
+    [SerializeField]
+    int round;
+    public GameObject continueScreen;
+    [SerializeField]
+    GameObject continueButton;
+    bool continuePressed = false;
     public int GetScore()
     {
         return score;
@@ -34,8 +39,12 @@ public class GameManager : Singleton<GameManager> {
         activePool = new List<Card>();
         score = 0;
         brick = 1;
+        round = 0;
         UpdateScoreStrikes();
         StartCoroutine(Round());
+        continueButton = GameObject.Find("ContinueButton");
+        continueScreen.SetActive(false);
+        
     }
 
     private void UpdateScoreStrikes() //Updates the Score/Strikes Number for Gamemanager
@@ -59,6 +68,7 @@ public class GameManager : Singleton<GameManager> {
     IEnumerator Round()
     {
         //Display the Round Countdown
+        round++;
         roundPause = true;
         win = false;
         StartCoroutine(CountDown());
@@ -197,6 +207,11 @@ public class GameManager : Singleton<GameManager> {
             x.gameObject.SetActive(false);
         }
     }
+    void ButtonPressed()
+    {
+        continuePressed = true;
+        //Debug.Log("C pressed");
+    }
     IEnumerator FinishRound()
     {
         Text myHeader = CanvasScript.Instance.headerDisplay;
@@ -204,6 +219,21 @@ public class GameManager : Singleton<GameManager> {
         activePool.Clear();
         pickEnabled = false;
         brick++;
+        //Stops every 5 rounds 
+        if (round % 5 == 0)
+        {
+            continueScreen.SetActive(true);
+            myHeader.text = "Congrats on clearing " + round + " rounds!";
+            while (continuePressed == false)
+            {
+                continueButton.GetComponent<Button>().onClick.AddListener(ButtonPressed);
+                
+                //Debug.Log("wait");
+                yield return null;
+            }
+            continuePressed = false;
+            continueScreen.SetActive(false);
+        }
         if (!win)
         {
             strikes--;
@@ -232,6 +262,7 @@ public class GameManager : Singleton<GameManager> {
             score++;
             myHeader.text = "Good job, that was correct!";
             UpdateScoreStrikes();
+            
             yield return new WaitForSeconds(1f);
             StartCoroutine(Round());
         }
