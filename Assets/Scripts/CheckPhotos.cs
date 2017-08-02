@@ -14,23 +14,13 @@ public class CheckPhotos : MonoBehaviour {
         dInfo = new DirectoryInfo(path);
     }
 
-    private bool ArePhotosMaxed()
+    public void ArePhotosMaxed()
     {
         FileInfo[] fInfo = dInfo.GetFiles("*.png");
-        return (fInfo.Length == max);
-    }
-
-    // Update is called once per frame
-    void Update () {
-		if (ArePhotosMaxed())
+        if (fInfo.Length >= max)
         {
             myButton.interactable = false;
             disableMessage.SetActive(true);
         }
-        else
-        {
-            myButton.interactable = true;
-            disableMessage.SetActive(false);
-        }
-	}
+    }
 }

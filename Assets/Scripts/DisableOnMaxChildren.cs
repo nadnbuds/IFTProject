@@ -14,7 +14,7 @@ public class DisableOnMaxChildren : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if (parent.transform.childCount == max)
+		if (parent.transform.childCount >= max)
         {
             interactableButton.interactable = false;
             disableMessage.SetActive(true);
