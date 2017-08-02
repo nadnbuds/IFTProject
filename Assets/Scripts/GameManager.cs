@@ -9,7 +9,7 @@ public class GameManager : Singleton<GameManager> {
     bool pickEnabled = false, roundPause = false, win = false;
     [SerializeField]
     int timeToPick, numberOutOf, numOfImages;
-    int strikes, score, brick;
+    int strikes, score, scoreholder;
     [SerializeField]
     float timeToDisplay;
     [SerializeField]
@@ -38,7 +38,6 @@ public class GameManager : Singleton<GameManager> {
         strikes = 3;
         activePool = new List<Card>();
         score = 0;
-        brick = 1;
         round = 0;
         UpdateScoreStrikes();
         StartCoroutine(Round());
@@ -67,13 +66,28 @@ public class GameManager : Singleton<GameManager> {
     }
     IEnumerator Round()
     {
-        //Display the Round Countdown
         round++;
+        //Stops every 5 rounds 
+        if (round % 5 == 0)
+        {
+            continueScreen.SetActive(true);
+            CanvasScript.Instance.headerDisplay.text = "Congrats on clearing " + round + " rounds!";
+            while (continuePressed == false)
+            {
+                continueButton.GetComponent<Button>().onClick.AddListener(ButtonPressed);
+
+                //Debug.Log("wait");
+                yield return null;
+            }
+            continuePressed = false;
+            continueScreen.SetActive(false);
+        }
+        //Display the Round Countdown
         roundPause = true;
         win = false;
         StartCoroutine(CountDown());
         //Get the random set of Cards for the round
-        int wordPullNumber = (brick / 5) + 3;
+        int wordPullNumber = (round / 5) + 3;
         //Add image bounds here if needed
         int imagePullNumber = numOfImages;
         AddCards(wordPullNumber,imagePullNumber);
@@ -174,6 +188,7 @@ public class GameManager : Singleton<GameManager> {
             myHeader.text = baseText + " " + timer;
             yield return new WaitForSeconds(1);
             timer--;
+            scoreholder = timer;
         }
         pickEnabled = false;
 
@@ -218,22 +233,6 @@ public class GameManager : Singleton<GameManager> {
         RemoveCards();
         activePool.Clear();
         pickEnabled = false;
-        brick++;
-        //Stops every 5 rounds 
-        if (round % 5 == 0)
-        {
-            continueScreen.SetActive(true);
-            myHeader.text = "Congrats on clearing " + round + " rounds!";
-            while (continuePressed == false)
-            {
-                continueButton.GetComponent<Button>().onClick.AddListener(ButtonPressed);
-                
-                //Debug.Log("wait");
-                yield return null;
-            }
-            continuePressed = false;
-            continueScreen.SetActive(false);
-        }
         if (!win)
         {
             strikes--;
@@ -259,7 +258,7 @@ public class GameManager : Singleton<GameManager> {
         }
         else
         {
-            score++;
+            score += scoreholder;
             myHeader.text = "Good job, that was correct!";
             UpdateScoreStrikes();
             
