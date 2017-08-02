@@ -37,7 +37,7 @@ public class DisplayPhoto : MonoBehaviour {
 
     private IEnumerator DeletePhotoEndOfFrame()
     {
-        if (PhotoAlbumPanel.transform.childCount == 0)
+        if (currentChildIndex == PhotoAlbumPanel.transform.childCount)
         {
             yield break;
         }
@@ -45,17 +45,14 @@ public class DisplayPhoto : MonoBehaviour {
         PopulatePhotoGrid parentImageGrid = PhotoAlbumPanel.GetComponent<PopulatePhotoGrid>();
         parentImageGrid.DeleteChildByIndex(currentChildIndex);
         yield return new WaitForEndOfFrame(); // DeleteChildByIndex deletes photo at end of frame
-        if (PhotoAlbumPanel.transform.childCount == 0) 
-        {
-            EnlargedPhoto.sprite = null;
-        }
-        else if (currentChildIndex < PhotoAlbumPanel.transform.childCount) 
+
+        if (currentChildIndex < PhotoAlbumPanel.transform.childCount) 
         {
             SetPhoto(currentChildIndex);
         }
         else
         {
-            SetPhoto(currentChildIndex - 1);
+            EnlargedPhoto.sprite = null;
         }
     }
 

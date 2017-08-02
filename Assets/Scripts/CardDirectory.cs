@@ -41,9 +41,20 @@ public class CardDirectory : Singleton<CardDirectory> {
             Debug.Log("1");
             cardDatabase.Add(WrapObject(f));
         }
+
+        string filePath = Path.Combine(Application.persistentDataPath, "WordsList.txt");
+        string[] linesFromfile = File.ReadAllText(filePath).Split('\n');
+        if (linesFromfile.Length == 0) //Word list not initialized
+        {
+            string[] IFTWords = { "Goes Above and Beyond", "Hardworking", "Productive",
+                            "Excited", "Outgoing", "Happy", "Loyal", "Reliable",
+                            "Team play", "Industrious", "Enthusiasm", "Good Citizen",
+                            "Gregarious", "Thrilled", "Prompt", "Faithful", "Playful",
+                            "Conscientious", "Brave", "Creative", "Assertive", "Educated", "Organized",
+                            "Efficient" };
+            linesFromfile = IFTWords;
+        }
         
-        TextAsset IFTWords = Resources.Load("words") as TextAsset;
-        string[] linesFromfile = IFTWords.text.Split("\n"[0]);
         foreach (string word in linesFromfile)
         {
             Debug.Log(word);
