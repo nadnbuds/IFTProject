@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/WordEdit.unity
+- path: Assets/IFTCardGame.unity
   isLoaded: 1
   isActive: 1
