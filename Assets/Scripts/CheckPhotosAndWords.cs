@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System;
 
 public class CheckPhotosAndWords : MonoBehaviour {
     public Button myButton;
@@ -29,15 +30,15 @@ public class CheckPhotosAndWords : MonoBehaviour {
 
             if (!AreThereWords() && AreTherePhotos())
             {
-                disableMessage.GetComponent<Text>().text = "Not Enough IFT Words";
+                disableMessage.GetComponent<Text>().text = "* Add More IFT Words!";
             }
             else if (!AreTherePhotos() && AreThereWords())
             {
-                disableMessage.GetComponent<Text>().text = "Missing A Photo";
+                disableMessage.GetComponent<Text>().text = "* Take a photo!";
             }
             else
             {
-                disableMessage.GetComponent<Text>().text = "Not Enough IFT Words/Photos";
+                disableMessage.GetComponent<Text>().text = "* Add More IFT Words/Photos!";
             }
         } 
     }
@@ -51,7 +52,23 @@ public class CheckPhotosAndWords : MonoBehaviour {
     private bool AreThereWords()
     {
         string filePath = Path.Combine(path, "WordsList.txt");
-        string[] IFTWordList = File.ReadAllText(filePath).Split('\n');
-        return (IFTWordList.Length >= 6);
+        if (File.Exists(filePath))
+        { 
+            string[] IFTWordList = File.ReadAllText(filePath).Split('\n');
+            return (IFTWordList.Length >= 6);
+        }
+        else
+        {
+            File.Create(filePath).Dispose();
+            string[] IFTWords = { "Goes Above and Beyond", "Hardworking", "Productive",
+                            "Excited", "Outgoing", "Happy", "Loyal", "Reliable",
+                            "Team play", "Industrious", "Enthusiasm", "Good Citizen",
+                            "Gregarious", "Thrilled", "Prompt", "Faithful", "Playful",
+                            "Conscientious", "Brave", "Creative", "Assertive", "Educated", "Organized",
+                            "Efficient" };
+            File.WriteAllText(filePath, String.Join("\r\n", IFTWords));
+
+            return true;
+        }
     }
 }

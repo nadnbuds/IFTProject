@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\CardDirectory.cs" />
     <Compile Include="Assets\Scripts\CheckPhotos.cs" />
     <Compile Include="Assets\Scripts\CheckPhotosAndWords.cs" />
+    <Compile Include="Assets\Scripts\ControlAudioVolume.cs" />
     <Compile Include="Assets\Scripts\DisableOnMaxChildren.cs" />
     <Compile Include="Assets\Scripts\EditWord.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Assets\Scripts\PopulateWords.cs" />
     <Compile Include="Assets\Scripts\PositionDebug.cs" />
     <Compile Include="Assets\Scripts\QuitOnClick.cs" />
+    <Compile Include="Assets\Scripts\RotateAnimation.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\SelectOnInput.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/IFTCardGame.unity
+- path: Assets/DeviceCamera.unity
   isLoaded: 1
   isActive: 1
