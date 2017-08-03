@@ -43,6 +43,12 @@ public class CardDirectory : Singleton<CardDirectory> {
         }
 
         string filePath = Path.Combine(Application.persistentDataPath, "WordsList.txt");
+
+        if (!File.Exists(filePath))
+        {
+            File.Create(filePath).Dispose();
+        }
+
         string[] linesFromfile = File.ReadAllText(filePath).Split('\n');
         if (linesFromfile.Length == 0) //Word list not initialized
         {

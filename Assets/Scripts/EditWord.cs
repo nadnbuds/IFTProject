@@ -11,7 +11,22 @@ public class EditWord
 	public EditWord()
     {
         filePath = Path.Combine(Application.persistentDataPath, "WordsList.txt");
-        IFTWordList = File.ReadAllText(filePath).Split('\n');
+        if (!File.Exists(filePath))
+        {
+            File.Create(filePath).Dispose();
+            string[] IFTWords = { "Goes Above and Beyond", "Hardworking", "Productive",
+                            "Excited", "Outgoing", "Happy", "Loyal", "Reliable",
+                            "Team play", "Industrious", "Enthusiasm", "Good Citizen",
+                            "Gregarious", "Thrilled", "Prompt", "Faithful", "Playful",
+                            "Conscientious", "Brave", "Creative", "Assertive", "Educated", "Organized",
+                            "Efficient" };
+            IFTWordList = IFTWords;
+            WriteToTxt();
+        }
+        else
+        {
+            IFTWordList = File.ReadAllText(filePath).Split('\n');
+        }   
     }
 
     public void WriteToTxt()

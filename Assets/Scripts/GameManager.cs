@@ -72,6 +72,7 @@ public class GameManager : Singleton<GameManager> {
         {
             continueScreen.SetActive(true);
             CanvasScript.Instance.headerDisplay.text = "Congrats on clearing " + round + " rounds!";
+            AudioManager.Instance.Play("break");
             while (continuePressed == false)
             {
                 continueButton.GetComponent<Button>().onClick.AddListener(ButtonPressed);
@@ -123,7 +124,12 @@ public class GameManager : Singleton<GameManager> {
             x.transform.SetParent(cardHolder);
             x.Adjust();
             x.gameObject.SetActive(true);
+            AudioSource onEnter = x.gameObject.GetComponent<AudioSource>();
+            onEnter.mute = true;
+            AudioManager.Instance.Play("card_presentation");
+            
             yield return new WaitForSeconds(timeToDisplay);
+            onEnter.mute = false;
             x.transform.SetParent(reset);
         }
         roundPause = false;
@@ -135,10 +141,13 @@ public class GameManager : Singleton<GameManager> {
         myHeader.gameObject.SetActive(true);
         string Prompt = "Round begins in ... ";
         myHeader.text = Prompt + "3";
+        AudioManager.Instance.Play("timer");
         yield return new WaitForSeconds(1f);
         myHeader.text = Prompt + "2";
+        AudioManager.Instance.Play("timer");
         yield return new WaitForSeconds(1f);
         myHeader.text = Prompt + "1";
+        AudioManager.Instance.Play("timer");
         yield return new WaitForSeconds(1f);
         myHeader.text = "";
         myHeader.gameObject.SetActive(false);
@@ -212,6 +221,7 @@ public class GameManager : Singleton<GameManager> {
             x.Adjust();
             x.gameObject.SetActive(true);
         }
+        AudioManager.Instance.Play("card_selection");
     }
     void RemoveCards()
     {
@@ -237,10 +247,14 @@ public class GameManager : Singleton<GameManager> {
         {
             strikes--;
             UpdateScoreStrikes();
-            myHeader.text = "Sorry that was the wrong Card";
+            Color placeHolder = myHeader.color;
+            myHeader.color = Color.red;
+            myHeader.text = "Too Bad!";
             if (strikes > 0)
             {
+                AudioManager.Instance.Play("wrong");
                 yield return new WaitForSeconds(1f);
+                myHeader.color = placeHolder;
                 StartCoroutine(Round());
             }
             else
@@ -252,6 +266,7 @@ public class GameManager : Singleton<GameManager> {
                     if(x.tag == "GameOver")
                     {
                         x.gameObject.SetActive(true);
+                        AudioManager.Instance.Play("lose");
                     }
                 }
             }
@@ -259,10 +274,14 @@ public class GameManager : Singleton<GameManager> {
         else
         {
             score += scoreholder;
-            myHeader.text = "Good job, that was correct!";
+            Color placeHolder = myHeader.color;
+            myHeader.color = Color.green;
+            myHeader.text = "Good Job!";
             UpdateScoreStrikes();
-            
+            AudioManager.Instance.Play("correct");
+
             yield return new WaitForSeconds(1f);
+            myHeader.color = placeHolder;
             StartCoroutine(Round());
         }
     }

@@ -34,6 +34,7 @@ public class PopulateWords : MonoBehaviour {
             }
         }
     }
+
 	public void ResetWords()
     {
         int childIndex = 0;

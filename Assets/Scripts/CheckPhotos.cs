@@ -12,6 +12,7 @@ public class CheckPhotos : MonoBehaviour {
     void Awake () {
         string path = Application.persistentDataPath;
         dInfo = new DirectoryInfo(path);
+        ArePhotosMaxed();
     }
 
     public void ArePhotosMaxed()
