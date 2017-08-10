@@ -4,25 +4,31 @@ using UnityEngine;
 
 public class RotateAnimation : MonoBehaviour {
     public float speed;
+    private Quaternion rotateToward;
 
-    void Update()
+    private void Awake()
     {
-        Quaternion rotateToward;
-        if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft)
+        rotateToward = Quaternion.Euler(0, 0, 0);
+    }
+
+    private void Update()
+    {
+        switch (Input.deviceOrientation)
         {
-            rotateToward = Quaternion.Euler(0, 0, -90);
-        }
-        else if (Input.deviceOrientation == DeviceOrientation.LandscapeRight)
-        {
-            rotateToward = Quaternion.Euler(0, 0, 90);
-        }
-        else if (Input.deviceOrientation == DeviceOrientation.Portrait)
-        {
-            rotateToward = Quaternion.Euler(0, 0, 0);
-        }
-        else
-        {
-            rotateToward = Quaternion.Euler(0, 0, 180);
+            case DeviceOrientation.Portrait:
+                rotateToward = Quaternion.Euler(0, 0, 0);
+                break;
+            case DeviceOrientation.LandscapeLeft:
+                rotateToward = Quaternion.Euler(0, 0, -90);
+                break;
+            case DeviceOrientation.LandscapeRight:
+                rotateToward = Quaternion.Euler(0, 0, 90);
+                break;
+            case DeviceOrientation.PortraitUpsideDown:
+                rotateToward = Quaternion.Euler(0, 0, 180);
+                break;
+            default:
+                break;
         }
 
         float step = speed * Time.deltaTime;

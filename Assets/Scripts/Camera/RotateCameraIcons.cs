@@ -32,7 +32,6 @@ public class RotateCameraIcons : MonoBehaviour {
                 rotationVector.z = 180;
                 break;
             default:
-                rotationVector.z = 0;
                 break;
         }
         transform.localEulerAngles = rotationVector;
