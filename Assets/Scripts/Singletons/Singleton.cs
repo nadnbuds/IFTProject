@@ -51,6 +51,17 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         get { return Instance.transform; }
     }
 
+    protected void CheckExists(T type)
+    {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = type;
+        }
+    }
 
     public void OnApplicationQuit()
     {

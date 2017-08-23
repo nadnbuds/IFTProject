@@ -10,6 +10,7 @@ public class AudioManager : Singleton<AudioManager>
 
 	void Awake()
 	{
+        CheckExists(this);
 		DontDestroyOnLoad(gameObject);
 
 		foreach (Sound s in sounds)
