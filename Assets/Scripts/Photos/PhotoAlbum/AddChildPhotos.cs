@@ -18,7 +18,7 @@ namespace MindTAPP.Unity.Gallery
         [SerializeField] private GameObject photoToCopy;
         [SerializeField] IPhotoService photoService;
 
-        private void Start()
+        private void Awake()
         {
             foreach (Sprite photoSprite in photoService.GetPhotos())
             {

@@ -13,6 +13,7 @@ using MindTAPP.Unity.IFT;
 namespace MindTAPP.Unity.PhotoCapture
 {
     // Enum to store file endings
+    [System.Serializable]
     public enum ImageFileExtension { Jpg, Png, Raw };
     
     // Attach to camera object w/ active render texture
@@ -84,6 +85,7 @@ namespace MindTAPP.Unity.PhotoCapture
 
             // Save photo to chosen path
             photoSaver.AddPhoto(Sprite.Create(photoTexture2D, photoDimensions, new Vector2(0.5f, 0.5f)), fileName);
+            Debug.Log("Photo Saved");
         }
 
         private byte[] GetByteData(ImageFileExtension fileType)
