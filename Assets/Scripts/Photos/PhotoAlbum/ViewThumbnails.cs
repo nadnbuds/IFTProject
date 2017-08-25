@@ -23,6 +23,11 @@ namespace MindTAPP.Unity.Gallery
         // Holds undo data
         private List<PhotoMemento> photosDeleted;
 
+        private void Awake()
+        {
+            photosDeleted = new List<PhotoMemento>();
+        }
+
         private void Start()
         {
             foreach (Sprite photoSprite in this.photoService.GetPhotos())
@@ -32,7 +37,7 @@ namespace MindTAPP.Unity.Gallery
             }
         }
 
-        public void DeletePhotos(List<GameObject> photosToDelete)
+        public void DeletePhotos(IEnumerable<GameObject> photosToDelete)
         {
             // Clear Previous Memento
             photosDeleted.Clear();

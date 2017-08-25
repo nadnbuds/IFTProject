@@ -84,8 +84,10 @@ namespace MindTAPP.Unity.Gallery
 
         private void AddSelection(Button toAdd)
         {
+            Debug.Log("Hi");
             toAdd.colors = selectedButtonColors;
             selectedObjects.Add(toAdd);
+            Debug.Log("Count: " + selectedObjects.Count);
         }
 
         private void RemoveSelection(Button toDelete)
@@ -136,6 +138,7 @@ namespace MindTAPP.Unity.Gallery
 
         public IEnumerable<GameObject> GetSelections()
         {
+            Debug.Log("Number of objects: " + selectedObjects.Count);
             return selectedObjects.Select(item => item.gameObject);
         }
     }

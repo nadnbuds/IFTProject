@@ -450,7 +450,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 179219125}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2141786454}
+        m_MethodName: TransitionToView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &179219125
@@ -501,7 +512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &193287947
 RectTransform:
   m_ObjectHideFlags: 0
@@ -602,7 +613,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 318692219}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2141786454}
+        m_MethodName: TransitionToSelectionScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &318692219
@@ -919,7 +941,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.35294116, g: 0.35294116, b: 0.35294116, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1076,7 +1098,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1138623028}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2141786454}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2141786454}
+        m_MethodName: DeletePhotos
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1138623028
@@ -1189,10 +1233,21 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1836168910}
+        m_MethodName: AlternateAllSelects
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1343041824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,6 +1662,7 @@ GameObject:
   - component: {fileID: 1836168907}
   - component: {fileID: 1836168906}
   - component: {fileID: 1836168909}
+  - component: {fileID: 1836168910}
   m_Layer: 5
   m_Name: Thumbnail Content
   m_TagString: Untagged
@@ -1687,6 +1743,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photoToCopy: {fileID: 1080265679}
   photoService: {fileID: 1953837978}
+--- !u!114 &1836168910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1836168904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90fc3d932205ab45bfebc4b981bd14e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thumbnailContent: {fileID: 1836168904}
+  buttonColors: {fileID: 1080265680}
 --- !u!1 &1884293412
 GameObject:
   m_ObjectHideFlags: 0
@@ -2094,6 +2163,7 @@ GameObject:
   - component: {fileID: 2141786451}
   - component: {fileID: 2141786450}
   - component: {fileID: 2141786453}
+  - component: {fileID: 2141786454}
   m_Layer: 5
   m_Name: Photo Album Canvas
   m_TagString: Untagged
@@ -2196,3 +2266,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeOutTexture: {fileID: 2800000, guid: 94b4a9b0dfd618449abec5cfbe9e076f, type: 3}
   fadeSpeed: 0.7
+--- !u!114 &2141786454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2141786448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5780c940d1c5bd459439410347377dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionMode: {fileID: 1836168910}
+  checkmark: {fileID: 1289727500}
+  thumbnails: {fileID: 1836168909}
+  optionsBar: {fileID: 78815986}
+  selectionScreen: {fileID: 193287946}
