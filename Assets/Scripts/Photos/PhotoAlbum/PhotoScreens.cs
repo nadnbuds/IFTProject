@@ -7,10 +7,8 @@ using System.Collections;
 using System.Linq;
 
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
-using UnityEngine.EventSystems;
 
 using MindTAPP.Unity.IFT;
 
@@ -23,30 +21,51 @@ namespace MindTAPP.Unity.Gallery
         [SerializeField] private IPhotoService photoService;
         public Sprite StartingPhoto { get; set; }
 
-        private void Awake()
+        // Holds undo information
+        private PhotoMemento lastPhotoDeleted;
+
+        private void Start()
         {
-            foreach (Sprite photoSprite in photoService.GetPhotos())
+            int startingScreenIndex = 0;
+            foreach (Sprite photoSprite in this.photoService.GetPhotos())
             {
-                GameObject photo = Instantiate(this.prefabImage, transform);
+                GameObject photo = photoDisplay.InstantiateChild(this.prefabImage);
                 photo.GetComponent<Image>().sprite = photoSprite;
-                if (photoSprite == StartingPhoto)
+                if (photoSprite == this.StartingPhoto)
                 {
-                    photoDisplay.StartingScreen = photo.transform.GetSiblingIndex();
+                    startingScreenIndex = photo.transform.GetSiblingIndex();
                 }
             }
+            // Sets starting page
+            this.photoDisplay.CurrentPage = startingScreenIndex;
+            // Prevents bugs
+            this.photoDisplay.UpdateLayout();
         }
-        
+
         public void DeletePhoto()
         {
-            if (photoDisplay._screensContainer.childCount <= 0)
+            if (this.photoDisplay._screensContainer.childCount <= 0)
             {
                 return;
             }
             // Moves child screen outside view
-            GameObject photoRemoved;
-            photoDisplay.RemoveChild(photoDisplay.CurrentPage, true, out photoRemoved);
+            GameObject removedPhoto;
+            this.photoDisplay.DeactivateChild(this.photoDisplay.CurrentPage, out removedPhoto);
             // Delete photo's internal storage
-            photoService.DeletePhoto(photoRemoved.GetComponent<Image>().sprite);
+            Sprite photo = removedPhoto.GetComponent<Image>().sprite;
+            string fileName = photoService.DeletePhoto(photo);
+            // Prevents bugs with snap position.
+            this.photoDisplay.UpdateLayout();
+            // Save memento state
+            this.lastPhotoDeleted = new PhotoMemento(removedPhoto, photo, fileName);
+        }
+
+        public void UndoDeletion()
+        {
+            photoService.AddPhoto(lastPhotoDeleted.PhotoSprite, lastPhotoDeleted.FileName);
+            photoDisplay.ReactivateChild(lastPhotoDeleted.PhotoGameObject);
+            // Prevents bugs
+            this.photoDisplay.UpdateLayout();
         }
     }
 }

@@ -112,9 +112,8 @@ namespace MindTAPP.Unity.IFT
         public override string DeletePhoto(Sprite photoToDelete)
         {
             string fileToDelete;
-            this.photoFiles.TryGetValue(photoToDelete, out fileToDelete);
 
-            if (!fileToDelete.Equals(string.Empty))
+            if (this.photoFiles.TryGetValue(photoToDelete, out fileToDelete))
             {
                 File.Delete(Path.Combine(DirectoryPath, fileToDelete));
                 this.photoFiles.Remove(photoToDelete);
