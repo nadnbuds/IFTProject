@@ -8,6 +8,7 @@ using System.IO;
 using System;
 
 using UnityEngine;
+using UnityEngine.UI;
 using MindTAPP.Unity.IFT;
 
 namespace MindTAPP.Unity.PhotoCapture
@@ -19,7 +20,8 @@ namespace MindTAPP.Unity.PhotoCapture
     // Attach to camera object w/ active render texture
     public class CameraShot : MonoBehaviour
     {
-        [SerializeField] IPhotoService photoSaver;
+        [SerializeField] private InitialPhoto startingPhoto;
+        [SerializeField] private IPhotoService photoSaver;
         private Camera renderingCamera; // Reference to camera that we will take pixels of
         private RenderTexture photoRenderTexture; // Texture that contains camera feed
         private Texture2D photoTexture2D; // Texture to read photoRenderTexture using GetPixels()
@@ -56,15 +58,15 @@ namespace MindTAPP.Unity.PhotoCapture
             return "Photo " + DateTime.Now.ToString("__yyyy-MM-dd__HH-mm-ss.fff_tt") + fileExtension;
         }
 
-        public string CapureCameraShot(ImageFileExtension fileFormat)
+        public string CapureCameraShot(Image thumbnail, ImageFileExtension fileFormat)
         {
             string fileName = CreateUniqueFileName(fileFormat);
-            StartCoroutine(ProcessPhoto(fileName, fileFormat));
+            StartCoroutine(ProcessPhoto(thumbnail, fileName, fileFormat));
             return fileName;
         }
 
         // Takes photo and converts it to an image of bytes, then saves it to the indicated path directory.
-        private IEnumerator ProcessPhoto(string fileName, ImageFileExtension fileType)
+        private IEnumerator ProcessPhoto(Image thumbnail, string fileName, ImageFileExtension fileType)
         {
             // Wait for end of frame to ensure quality picture
             yield return new WaitForEndOfFrame();
@@ -84,7 +86,11 @@ namespace MindTAPP.Unity.PhotoCapture
             byte[] image = GetByteData(fileType);
 
             // Save photo to chosen path
-            photoSaver.AddPhoto(Sprite.Create(photoTexture2D, photoDimensions, new Vector2(0.5f, 0.5f)), fileName);
+            Sprite temp = Sprite.Create(photoTexture2D, photoDimensions, new Vector2(0.5f, 0.5f));
+            photoSaver.AddPhoto(temp, fileName);
+            thumbnail.sprite = temp;
+            startingPhoto.StartingPhoto = temp;
+
             Debug.Log("Photo Saved");
         }
 

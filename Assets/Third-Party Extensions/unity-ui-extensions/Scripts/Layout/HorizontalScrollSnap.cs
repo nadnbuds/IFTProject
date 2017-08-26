@@ -113,17 +113,6 @@ namespace UnityEngine.UI.Extensions
             return copy;
         }
 
-        public void ReactivateChild(GameObject GO)
-        {
-            _scroll_rect.horizontalNormalizedPosition = 0;
-            GO.SetActive(true);
-            InitialiseChildObjectsFromScene();
-            DistributePages();
-            if (MaskArea) UpdateVisible();
-
-            SetScrollContainerPosition();
-        }
-
         /// <summary>
         /// Add a new child to this Scroll Snap and recalculate it's children
         /// </summary>
@@ -133,6 +122,21 @@ namespace UnityEngine.UI.Extensions
         {
             _scroll_rect.horizontalNormalizedPosition = 0;
             GO.transform.SetParent(_screensContainer, WorldPositionStays);
+            InitialiseChildObjectsFromScene();
+            DistributePages();
+            if (MaskArea) UpdateVisible();
+
+            SetScrollContainerPosition();
+        }
+
+        // Personally added function.
+        // Adds child to specific index
+        public void AddChild(GameObject GO, int index)
+        {
+            _scroll_rect.horizontalNormalizedPosition = 0;
+            GO.transform.SetParent(_screensContainer);
+            GO.transform.SetSiblingIndex(index);
+            GO.transform.localScale = Vector3.one;
             InitialiseChildObjectsFromScene();
             DistributePages();
             if (MaskArea) UpdateVisible();
@@ -169,30 +173,6 @@ namespace UnityEngine.UI.Extensions
 
             Transform child = _screensContainer.transform.GetChild(index);
             child.SetParent(null, WorldPositionStays);
-            ChildRemoved = child.gameObject;
-            InitialiseChildObjectsFromScene();
-            DistributePages();
-            if (MaskArea) UpdateVisible();
-
-            if (_currentPage > _screens - 1)
-            {
-                CurrentPage = _screens - 1;
-            }
-
-            SetScrollContainerPosition();
-        }
-
-        public void DeactivateChild(int index, out GameObject ChildRemoved)
-        {
-            ChildRemoved = null;
-            if (index < 0 || index > _screensContainer.childCount)
-            {
-                return;
-            }
-            _scroll_rect.horizontalNormalizedPosition = 0;
-
-            Transform child = _screensContainer.transform.GetChild(index);
-            child.gameObject.SetActive(false);
             ChildRemoved = child.gameObject;
             InitialiseChildObjectsFromScene();
             DistributePages();

@@ -19,6 +19,7 @@ namespace MindTAPP.Unity.Gallery
     {
         public UnityEvent OnEnableSelection { get; private set; }
         public UnityEvent OnDisableSelection { get; private set; }
+        public ScreenTriggers load;
 
         [SerializeField] private GameObject thumbnailContent;
         [SerializeField] private Button buttonColors;
@@ -111,6 +112,7 @@ namespace MindTAPP.Unity.Gallery
             }
         }
 
+        // TODO: redo this
         public void EnableSelectionMode()
         {
             Debug.Log("Enable Selection Mode");
@@ -129,6 +131,7 @@ namespace MindTAPP.Unity.Gallery
             foreach (Button selectableButton in allButtons)
             {
                 selectableButton.onClick.RemoveListener(selectable);
+
             }
             foreach (Button selectedButton in selectedObjects)
             {

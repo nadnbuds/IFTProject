@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace MindTAPP.Unity.IFT
 {
-    public abstract class IPhotoService : MonoBehaviour
+    public abstract class IPhotoService : ScriptableObject
     {
         public abstract IEnumerable<Sprite> GetPhotos();
         public abstract void AddPhoto(Sprite photo, string fileName);

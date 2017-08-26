@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using MindTAPP.Unity.Gallery;
+using UnityEngine.SceneManagement;
 using MindTAPP.Unity.IFT;
 using MindTAPP.Unity.PhotoCapture;
 
@@ -16,6 +17,7 @@ using MindTAPP.Unity.PhotoCapture;
 public class ScreenTriggers : MonoBehaviour
 {
     [SerializeField] private SelectPhotos selectionMode;
+    [SerializeField] private InitialPhoto bam;
     [SerializeField] private Toggle checkmark;
     [SerializeField] private ViewThumbnails thumbnails;
     [SerializeField] private GameObject optionsBar;
@@ -23,21 +25,28 @@ public class ScreenTriggers : MonoBehaviour
 
     public void TransitionToSelectionScreen()
     {
-        optionsBar.SetActive(false);
         selectionScreen.SetActive(true);
         selectionMode.EnableSelectionMode();
+        optionsBar.SetActive(false);
     }
 
     public void DeletePhotos()
     {
         thumbnails.DeletePhotos(selectionMode.GetSelections());
+        TransitionToView();
+    }
+
+    public void TransitionToTheater(Image photo)
+    {
+        bam.StartingPhoto = photo.sprite;
+        SceneManager.LoadScene("GallerySlides");
     }
 
     public void TransitionToView()
     {
         optionsBar.SetActive(true);
-        selectionScreen.SetActive(false);
         selectionMode.DisableSelectionMode();
         checkmark.isOn = false;
+        selectionScreen.SetActive(false);
     }
 }

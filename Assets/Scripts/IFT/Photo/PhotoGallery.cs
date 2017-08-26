@@ -14,20 +14,26 @@ namespace MindTAPP.Unity.IFT
 {
     // Manages collection of photos currently saved and maintains a list of
     // Sprite objects for use in-game.
-
+    [CreateAssetMenu()]
     public class PhotoGallery : IPhotoService
     {
+        // Ensures single instance
+        private static bool isCreated = false;
         // Sprite is the visual representation of the photo and string is the file name.
         private Dictionary<Sprite, string> photoFiles = new Dictionary<Sprite, string>();
-
         // Directory path that contains all photos.
         private string DirectoryPath;
         
-        private void Awake()
+        private void OnEnable()
         {
+            if (isCreated)
+            {
+                Debug.LogError("Attempted to create two instances of PhotoGallery");
+                return;
+            }
             // Creates photo directory if it does not exist and caches string path of photo directory
             DirectoryPath = Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Photos")).FullName;
-
+            isCreated = true;
             // Initializes photos in directory
             foreach (string filePath in Directory.GetFiles(DirectoryPath))
             {

@@ -8,6 +8,9 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 
 using MindTAPP.Unity.IFT;
 
@@ -20,7 +23,12 @@ namespace MindTAPP.Unity.PhotoCapture
     public class DeviceCamera : MonoBehaviour
     {
         [SerializeField] private CameraShot photoCamera; // Virtual camera that takes the photo
-        [SerializeField] private Image photoThumbnail;
+
+        //TODO: change these two once I get to refactoring
+        [SerializeField] private Image photoToDisplay;
+        [SerializeField] private InitialPhoto startingPhoto;
+        [SerializeField] private IPhotoService photoService;
+        [SerializeField] private InitialPhoto init;
 
         private WebCamTexture activeCamera; // Current device camera in use
         private WebCamTexture frontCamera; // Front camera
@@ -38,6 +46,14 @@ namespace MindTAPP.Unity.PhotoCapture
         // Initializes backCam, frontCam, and currentCam
         private void Awake()
         {
+            IEnumerable<Sprite> listOfPhotos = photoService.GetPhotos();
+            if (listOfPhotos.Count() > 0)
+            {
+                photoToDisplay.sprite = photoService.GetPhotos().Last();
+                init.StartingPhoto = photoToDisplay.sprite;
+            }
+            
+
             WebCamDevice[] devices = WebCamTexture.devices;
 
             // No camera available
@@ -118,7 +134,7 @@ namespace MindTAPP.Unity.PhotoCapture
         // Takes and saves a photo by utilizing a virtual camera in front of the camera feed
         public void CapturePhoto()
         {
-            string file = this.photoCamera.CapureCameraShot(ImageFileExtension.Png);
+            string file = this.photoCamera.CapureCameraShot(photoToDisplay, ImageFileExtension.Png);
         }
 
         #endregion TriggerFunctions

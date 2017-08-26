@@ -186,15 +186,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1441277406}
-        m_MethodName: SetStartingPhoto
-        m_Mode: 1
+      - m_Target: {fileID: 872659272}
+        m_MethodName: loadByName
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: AlternateMenu
+          m_StringArgument: GalleryThumbnails
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 872659270}
   - component: {fileID: 872659269}
   - component: {fileID: 872659268}
+  - component: {fileID: 872659272}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -467,6 +468,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &872659272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 872659267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df879f960d6980e458624ae1ea6e885c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeOutTexture: {fileID: 2800000, guid: 94b4a9b0dfd618449abec5cfbe9e076f, type: 3}
+  fadeSpeed: 1
 --- !u!1 &937507020
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,51 +670,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1210789955}
---- !u!1 &1332872342
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1332872344}
-  - component: {fileID: 1332872343}
-  m_Layer: 5
-  m_Name: PhotoDirectory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1332872343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1332872342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8804785e58334e84c8ff13b36e72a00e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!224 &1332872344
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1332872342}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.29907408, y: 0.29907408, z: 0.29907408}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 540, y: 864.33435}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1359411420
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,7 +924,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1441277404}
-  - component: {fileID: 1441277405}
   - component: {fileID: 1441277406}
   m_Layer: 5
   m_Name: Enlarged Photo Content
@@ -982,19 +950,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1441277405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1441277403}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f54ff1ff4552c4987da2709ec7e71f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  photoToCopy: {fileID: 559240295}
-  photoService: {fileID: 1332872343}
 --- !u!114 &1441277406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,7 +963,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photoDisplay: {fileID: 1359411426}
   prefabImage: {fileID: 559240295}
-  photoService: {fileID: 1332872343}
+  photoService: {fileID: 11400000, guid: 6cb9e5ad2e078e04cba57b8e3dab9c68, type: 2}
+  bam: {fileID: 11400000, guid: e64651922c6866346b6800299f907031, type: 2}
+  OnDelete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2089308840}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnUndo:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2089308840}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &1511667839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,6 +1219,7 @@ GameObject:
   - component: {fileID: 2089308844}
   - component: {fileID: 2089308843}
   - component: {fileID: 2089308842}
+  - component: {fileID: 2089308845}
   m_Layer: 5
   m_Name: Undo Delete Button
   m_TagString: Untagged
@@ -1255,7 +1244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 180}
+  m_AnchoredPosition: {x: 0, y: 87}
   m_SizeDelta: {x: 700, y: 120}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2089308842
@@ -1296,7 +1285,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2089308843}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1441277406}
+        m_MethodName: UndoDeletion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2089308843
@@ -1332,6 +1332,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2089308840}
+--- !u!114 &2089308845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2089308840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10eca39a530c63545b3685afe2f328f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snap: {fileID: 1359411426}
 --- !u!1 &2123176608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,7 +1419,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 872659272}
         m_MethodName: loadByName
         m_Mode: 5
         m_Arguments:
