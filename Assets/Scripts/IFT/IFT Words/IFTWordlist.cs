@@ -10,13 +10,15 @@ using UnityEngine;
 // TODO: update for online information once website goes up
 namespace MindTAPP.Unity.IFT
 {
+    [CreateAssetMenu()]
     public class IFTWordlist : IWordlistService
     {
-        [SerializeField] IWordlistRepository IFTRepo;
+        [SerializeField] private IWordlistRepository IFTRepo;
         private IEnumerable<string> IFTWords;
 
-        private void Awake()
+        private void OnEnable()
         {
+            this.hideFlags = HideFlags.HideAndDontSave;
             IFTWords = IFTRepo.QueryWords();
         }
 

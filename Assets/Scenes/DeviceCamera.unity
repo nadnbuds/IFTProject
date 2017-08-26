@@ -634,7 +634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingPhoto: {fileID: 11400000, guid: e64651922c6866346b6800299f907031, type: 2}
-  photoSaver: {fileID: 11400000, guid: 6cb9e5ad2e078e04cba57b8e3dab9c68, type: 2}
+  photoSaver: {fileID: 11400000, guid: 12ad509995a738146a4997421b53baf7, type: 2}
 --- !u!114 &717655023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1625,7 +1625,7 @@ MonoBehaviour:
   photoCamera: {fileID: 717655022}
   photoToDisplay: {fileID: 1366286351}
   startingPhoto: {fileID: 11400000, guid: e64651922c6866346b6800299f907031, type: 2}
-  photoService: {fileID: 11400000, guid: 6cb9e5ad2e078e04cba57b8e3dab9c68, type: 2}
+  photoService: {fileID: 11400000, guid: 12ad509995a738146a4997421b53baf7, type: 2}
   init: {fileID: 11400000, guid: e64651922c6866346b6800299f907031, type: 2}
   cameraFeed: {fileID: 1942733121}
 --- !u!114 &1942733124

@@ -28,9 +28,10 @@ namespace MindTAPP.Unity.IFT
         {
             if (isCreated)
             {
-                Debug.LogError("Attempted to create two instances of PhotoGallery");
-                return;
+                throw new System.Exception("Attempted to create two instances of PhotoGallery.");
             }
+            // Ensures not deleted
+            this.hideFlags = HideFlags.HideAndDontSave;
             // Creates photo directory if it does not exist and caches string path of photo directory
             DirectoryPath = Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Photos")).FullName;
             isCreated = true;

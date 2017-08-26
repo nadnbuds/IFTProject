@@ -10,7 +10,7 @@ namespace MindTAPP.Unity.IFT
 {
     // Business Logic Layer
     // Proccesses data from IWordlistRepository (Data Access Layer)
-    public abstract class IWordlistService : MonoBehaviour
+    public abstract class IWordlistService : ScriptableObject
     {
         public abstract IEnumerable<string> GetWords();
     }

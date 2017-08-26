@@ -9,21 +9,9 @@ using UnityEngine;
 
 namespace MindTAPP.Unity.IFT
 {
+    [CreateAssetMenu()]
     public class IFTRepository : IWordlistRepository
     {
-        // Checks to see if there is only one instance created
-        private static bool isInstanceCreated = false;
-
-        public IFTRepository()
-        {
-            if (isInstanceCreated)
-            {
-                Debug.LogWarning("There should only be a single instance of IFTWordRepository");
-                return;
-            }
-            isInstanceCreated = true;
-        }
-
         public override IEnumerable<string> QueryWords()
         {
             string[] IFTWords =
