@@ -31,7 +31,7 @@ public class CardDirectory : Singleton<CardDirectory> {
     private void ReadDirectory()
     {
         //Reads the directory from android for pictures taken and puts the file path in the injection
-        string path = Application.persistentDataPath;
+        string path = Path.Combine(Application.persistentDataPath, "Photos");
         Debug.Log(path);
         DirectoryInfo dInfo = new DirectoryInfo(path);
         //Filters for jpg only

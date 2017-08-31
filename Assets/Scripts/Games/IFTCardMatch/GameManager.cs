@@ -210,11 +210,22 @@ public class GameManager : Singleton<GameManager> {
         displayCards.Add(targetCard);
         activePool.Remove(targetCard);
         Shuffle<Card>(activePool);
-        for(int x = 0; x < 5; x++)
+        foreach(Card card in activePool)
         {
-            displayCards.Add(activePool[x]);
+            if(displayCards.Count > 5)
+            {
+                break;
+            }
+            displayCards.Add(card);
+        }
+        while(displayCards.Count < 6)
+        {
+            Card x = ObjectPooler.Instance.GetWordCard();
+            activePool.Add(x);
+            displayCards.Add(x);
         }
         activePool.Add(targetCard);
+        Shuffle<Card>(displayCards);
         foreach(Card x in displayCards)
         {
             x.transform.SetParent(display);

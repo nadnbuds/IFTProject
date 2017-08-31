@@ -292,7 +292,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1286253139383086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e957342c61ec5aa43a3726b007452f4d, type: 3}
+  m_Script: {fileID: 11500000, guid: c9908216a1abc6a4280a348fb5193c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114965550015102272
@@ -318,7 +318,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 7cb2912222469634ba17a77055919ea8, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
